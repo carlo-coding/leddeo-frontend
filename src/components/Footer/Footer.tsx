@@ -39,13 +39,13 @@ function Footer() {
           <LinkedInIcon />
         </a>
       </IconButton>
-      <IconButton>
+      {/* <IconButton>
         <a target="_blank" href="">
           <FacebookIcon />
         </a>
-      </IconButton>
+      </IconButton> */}
       <IconButton>
-        <a target="_blank" href="">
+        <a target="_blank" href="https://www.youtube.com/@leddeo">
           <YouTubeIcon />
         </a>
       </IconButton>
