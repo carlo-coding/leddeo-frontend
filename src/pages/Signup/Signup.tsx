@@ -1,4 +1,4 @@
-import Box from "@mui/material/Box";
+import { Box, FormControlLabel, Checkbox } from "@mui/material";
 import { useAppDispatch } from "../../app/hooks";
 import { CButton, Layout } from "../../components";
 import { googleAuth, signup } from "../../features";
@@ -9,9 +9,14 @@ import { ISignupPayload } from "./interfaces/Signup";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { TextField } from "@mui/material";
+import { useState } from "react";
 
 function Signup() {
   const dispatch = useAppDispatch();
+  const [temrsChecked, setTermsChecked] = useState(false);
+  const handleTermsChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setTermsChecked(e.currentTarget.checked);
+  };
 
   const handleGoogleError = () =>
     enqueueSnackbar("Hubo un error obteniendo permisos de google", {
@@ -21,6 +26,12 @@ function Signup() {
   const handleGoogleResponse = async (
     response: CredentialResponse
   ): Promise<void> => {
+    if (!temrsChecked) {
+      enqueueSnackbar("Primero debes aceptar los términos y condiciones", {
+        variant: "error",
+      });
+      return;
+    }
     if (!response.credential) {
       handleGoogleError();
       return;
@@ -38,7 +49,9 @@ function Signup() {
     username: Yup.string()
       .min(3, "Al menos 3 carácteres")
       .required("Campo requerido"),
-    email: Yup.string().email("Debes ingresar un correo válido"),
+    email: Yup.string()
+      .required("Campo requerido")
+      .email("Debes ingresar un correo válido"),
     password: Yup.string()
       .min(8, "Debe tener al menos 8 carácteres")
       .test(
@@ -59,6 +72,12 @@ function Signup() {
   });
 
   const handleFormSubmit = async (values: ISignupPayload) => {
+    if (!temrsChecked) {
+      enqueueSnackbar("Primero debes aceptar los términos y condiciones", {
+        variant: "error",
+      });
+      return;
+    }
     dispatch(signup(values));
   };
 
@@ -128,14 +147,33 @@ function Signup() {
                   error={Boolean(getInputError("password"))}
                 />
 
-                <CButton type="submit">Crear cuenta</CButton>
-
-                <GoogleLogin
-                  onSuccess={handleGoogleResponse}
-                  onError={() => {
-                    handleGoogleError();
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
                   }}
-                />
+                >
+                  <Checkbox
+                    onChange={handleTermsChange}
+                    checked={temrsChecked}
+                  />
+                  <a target="_blank" href="terms">
+                    Acepto los términos y condiciones
+                  </a>
+                </Box>
+
+                {temrsChecked && (
+                  <>
+                    <CButton type="submit">Crear cuenta</CButton>
+
+                    <GoogleLogin
+                      onSuccess={handleGoogleResponse}
+                      onError={() => {
+                        handleGoogleError();
+                      }}
+                    />
+                  </>
+                )}
               </Box>
             );
           }}
