@@ -59,9 +59,6 @@ const StyledTab = styled((props: StyledTabProps) => (
     color: theme.palette.layout.white,
     background: theme.palette.layout.mediumGray,
   },
-  /* "&.Mui-focusVisible": {
-    backgroundColor: "rgba(100, 95, 228, 0.32)",
-  }, */
 }));
 
 interface StyledTabsProps {
@@ -89,9 +86,7 @@ const StyledTabs = styled((props: StyledTabsProps) => (
     backgroundColor: "transparent",
   },
   "& .MuiTabs-indicatorSpan": {
-    maxWidth: 40,
-    width: "100%",
-    backgroundColor: "#635ee7",
+    display: "none",
   },
 });
 export default function BasicTabs() {
