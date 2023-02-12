@@ -98,21 +98,21 @@ function Options() {
       >
         <Option
           title="Subtitulado automático"
-          subtitle="LEDEO hace los subtítulos por tí ¿Más fácil? imposible"
+          subtitle="Leddeo hace los subtítulos por tí ¿Más fácil? imposible"
           onClick={automatic}
         >
           Continuar proyecto
         </Option>
         <Option
           title="Subir SRT"
-          subtitle="Deja que LEDEO integre tu archivo SRT al vídeo"
+          subtitle="Deja que Leddeo integre tu archivo SRT al vídeo"
           onClick={srt}
         >
           Continuar proyecto
         </Option>
         <Option
           title="Subtitulado manual"
-          subtitle="Usa las herramientas que te ofrece LEDEO para un subtítulado de calidad"
+          subtitle="Usa las herramientas que te ofrece Leddeo para un subtítulado de calidad"
           onClick={manual}
         >
           Continuar proyecto

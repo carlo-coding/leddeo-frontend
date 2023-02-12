@@ -39,7 +39,6 @@ export async function serviceSubtitleVideo(payload: {
   formData.append("srt", srtFile);
 
   const params = buildQuery(payload.style);
-  console.log(params);
 
   const resp = request<TSubtitleItem[]>({
     endpoint: `${SubtitleServiceEndpoints.CAPTION}${params}`,

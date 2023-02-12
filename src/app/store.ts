@@ -10,6 +10,7 @@ import {
   userSlice,
   videoSlice,
 } from "../features";
+import fontSlice from "../features/font/fontSlice";
 
 export const store = configureStore({
   reducer: {
@@ -21,6 +22,7 @@ export const store = configureStore({
     faq: faqSlice,
     auth: authSlice,
     sidebar: sidebarSlice,
+    font: fontSlice,
   },
   middleware: [thunk],
 });

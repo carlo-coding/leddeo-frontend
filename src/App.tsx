@@ -3,7 +3,7 @@ import { lazy, Suspense } from "react";
 import { Provider } from "react-redux";
 import { Navigate, Route } from "react-router-dom";
 import { store } from "./app/store";
-import { Loading, RoutesWith404 } from "./components";
+import { InitLoads, Loading, RoutesWith404 } from "./components";
 import { AuthGuard } from "./guards";
 import VideoGuard from "./guards/VideoGuard";
 import { PrivateRoutes, PublicRoutes } from "./models";
@@ -35,37 +35,39 @@ function App() {
         <SnackbarProvider autoHideDuration={3000}>
           <Provider store={store}>
             <ThemeProvider theme={defaultTheme}>
-              <RoutesWith404>
-                <Route
-                  path="/"
-                  element={<Navigate to={PublicRoutes.LANDING} />}
-                />
-                <Route
-                  path={PublicRoutes.TERMS}
-                  element={<TermsConditions />}
-                />
-                <Route path={PublicRoutes.POLICIES} element={<Policies />} />
-                <Route path={PublicRoutes.LANDING} element={<Landing />} />
-                <Route path={PublicRoutes.UPLOAD} element={<Upload />} />
-                <Route path={PublicRoutes.PLANS} element={<Plans />} />
-                <Route path={PublicRoutes.SIGNUP} element={<Signup />} />
-                <Route path={PublicRoutes.LOGIN} element={<Login />} />
-                <Route path={PublicRoutes.FAQS} element={<Faqs />} />
-                <Route element={<AuthGuard />}>
+              <InitLoads>
+                <RoutesWith404>
                   <Route
-                    path={`${PrivateRoutes.PRIVATE}/*`}
-                    element={<Private />}
+                    path="/"
+                    element={<Navigate to={PublicRoutes.LANDING} />}
                   />
-                </Route>
-                <Route element={<VideoGuard />}>
-                  <Route path={PublicRoutes.EDITOR} element={<Editor />} />
-                  <Route path={PublicRoutes.OPTIONS} element={<Options />} />
                   <Route
-                    path={PublicRoutes.SRT_UPLOAD}
-                    element={<SrtUpload />}
+                    path={PublicRoutes.TERMS}
+                    element={<TermsConditions />}
                   />
-                </Route>
-              </RoutesWith404>
+                  <Route path={PublicRoutes.POLICIES} element={<Policies />} />
+                  <Route path={PublicRoutes.LANDING} element={<Landing />} />
+                  <Route path={PublicRoutes.UPLOAD} element={<Upload />} />
+                  <Route path={PublicRoutes.PLANS} element={<Plans />} />
+                  <Route path={PublicRoutes.SIGNUP} element={<Signup />} />
+                  <Route path={PublicRoutes.LOGIN} element={<Login />} />
+                  <Route path={PublicRoutes.FAQS} element={<Faqs />} />
+                  <Route element={<AuthGuard />}>
+                    <Route
+                      path={`${PrivateRoutes.PRIVATE}/*`}
+                      element={<Private />}
+                    />
+                  </Route>
+                  <Route element={<VideoGuard />}>
+                    <Route path={PublicRoutes.EDITOR} element={<Editor />} />
+                    <Route path={PublicRoutes.OPTIONS} element={<Options />} />
+                    <Route
+                      path={PublicRoutes.SRT_UPLOAD}
+                      element={<SrtUpload />}
+                    />
+                  </Route>
+                </RoutesWith404>
+              </InitLoads>
             </ThemeProvider>
           </Provider>
         </SnackbarProvider>

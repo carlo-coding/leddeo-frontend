@@ -1,7 +1,4 @@
 import { Box } from "@mui/material";
-import { useEffect } from "react";
-import { useAppDispatch } from "../../app/hooks";
-import { getFaqs, getUser } from "../../features";
 import { Footer } from "../Footer";
 import { Header } from "../Header";
 import { Modal } from "../Modal";
@@ -12,13 +9,6 @@ interface TLayoutProps {
 }
 
 function Layout({ children, showFooter = false }: TLayoutProps) {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getUser());
-    dispatch(getFaqs());
-  }, []);
-
   return (
     <Box
       sx={{

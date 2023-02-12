@@ -85,7 +85,6 @@ function Editor() {
     if (videoRef.current === null) return;
     videoRef.current.currentTime = 0;
   };
-  console.log(videoRef.current?.width);
 
   return (
     <Layout>

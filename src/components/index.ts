@@ -4,6 +4,7 @@ export * from "./CountdownTimer";
 export * from "./FileUpload";
 export * from "./Footer";
 export * from "./Header";
+export * from "./InitLoads";
 export * from "./Layout";
 export * from "./Loading";
 export * from "./Modal/contents";

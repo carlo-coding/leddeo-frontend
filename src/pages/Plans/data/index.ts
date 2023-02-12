@@ -2,7 +2,7 @@ export const plansData = [
   {
     title: "Plan Básico Gratuito",
     lookup_key: null,
-    subtitle: "Lo mejor de LEDEO totalmente gratis",
+    subtitle: "Lo mejor de Leddeo totalmente gratis",
     price: "$0.00",
     buttonText: "¡Crea un proyecto nuevo!",
     features: [
@@ -27,7 +27,7 @@ export const plansData = [
   {
     title: "Plan Mensual",
     lookup_key: "59",
-    subtitle: "LEDEO al máximo durante 30 días",
+    subtitle: "Leddeo al máximo durante 30 días",
     price: "$59.00",
     features: [
       {
@@ -55,7 +55,7 @@ export const plansData = [
   {
     title: "Plan Anual",
     lookup_key: "564",
-    subtitle: "LEDEO al máximo durante 365 días",
+    subtitle: "Leddeo al máximo durante 365 días",
     price: "$564.00",
     features: [
       {

@@ -17,7 +17,6 @@ import BrushIcon from "@mui/icons-material/Brush";
 import { CompactPicker, ColorResult } from "react-color";
 import FormatColorTextIcon from "@mui/icons-material/FormatColorText";
 import { useState } from "react";
-import fonts from "../../data/availableFonts.json";
 
 function WrapColorIcon({ children, color }: any) {
   return (
@@ -45,6 +44,7 @@ function StylesEditor() {
   const style = useAppSelector((state) => state.subtitle.style);
   const [sendBgColor, setSendBgColor] = useState(true);
   const dispatch = useAppDispatch();
+  const fonts = useAppSelector((state) => state.font.list);
 
   const vertAlignVals = {
     bottom: "top",
@@ -222,7 +222,7 @@ function StylesEditor() {
       >
         <p>Fuente</p>
         <select onChange={handleSelectFont} value={style.font}>
-          {fonts.map((font) => (
+          {fonts?.map((font) => (
             <option key={font} value={font}>
               {truncateString(font)}
             </option>

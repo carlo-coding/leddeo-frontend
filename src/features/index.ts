@@ -5,6 +5,7 @@ export * from "./common";
 export * from "./common/interfaces";
 export * from "./faq";
 export * from "./faq/interfaces/faqState";
+export * from "./font";
 export * from "./history";
 export * from "./history/interfaces/historyState";
 export * from "./subtitle";

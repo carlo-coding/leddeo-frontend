@@ -1,8 +1,8 @@
 import { checkError, IErrorCodeMessages } from "./checkError";
 import { getCookie } from "./cookies";
 
-const apiUrl = import.meta.env.VITE_API_URL as string;
-const apiPrefix = import.meta.env.VITE_API_PREFIX as string;
+export const apiUrl = import.meta.env.VITE_API_URL as string;
+export const apiPrefix = import.meta.env.VITE_API_PREFIX as string;
 
 interface IRequestParams<R> {
   endpoint: string;
