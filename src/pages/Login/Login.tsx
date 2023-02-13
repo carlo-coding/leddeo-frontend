@@ -24,7 +24,11 @@ function Login() {
       handleGoogleError();
       return;
     }
-    dispatch(googleAuth(response.credential));
+    dispatch(
+      googleAuth({
+        token: response.credential,
+      })
+    );
   };
 
   const initialValues: ILoginPayload = {

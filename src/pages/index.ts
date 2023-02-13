@@ -15,7 +15,6 @@ export * from "./Plans/subcomps";
 export * from "./Private";
 export * from "./Profile";
 export * from "./Signup";
-export * from "./Signup/interfaces/Signup";
 export * from "./SrtUpload";
 export * from "./TermsConditions";
 export * from "./TestingComps";
