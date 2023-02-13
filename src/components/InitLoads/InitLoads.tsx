@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   getFaqs,
   getFontsList,
@@ -15,13 +15,18 @@ interface InitLoadsProps {
 function InitLoads({ children }: InitLoadsProps) {
   const dispatch = useAppDispatch();
 
+  const preferredLang = useAppSelector((state) => state.lang.preferredLanguage);
+
   useEffect(() => {
     dispatch(getUser());
     dispatch(getFaqs());
     dispatch(getFontsList());
     dispatch(loadFonts());
-    dispatch(getLatestAceptance());
   }, []);
+
+  useEffect(() => {
+    dispatch(getLatestAceptance(preferredLang));
+  }, [preferredLang]);
   return <>{children}</>;
 }
 export default InitLoads;

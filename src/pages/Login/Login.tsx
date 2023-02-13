@@ -1,7 +1,6 @@
 import { CButton, Layout } from "../../components";
 import { Box, TextField } from "@mui/material";
-import { IGetTokenPayload } from "../../models";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { googleAuth, login } from "../../features";
 import { enqueueSnackbar } from "notistack";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
@@ -11,6 +10,10 @@ import { Formik } from "formik";
 
 function Login() {
   const dispatch = useAppDispatch();
+
+  const loginPage = useAppSelector(
+    (state) => state.lang.pageLanguage.pages.login
+  );
 
   const handleGoogleError = () =>
     enqueueSnackbar("Hubo un error obteniendo permisos de google", {
@@ -84,10 +87,10 @@ function Login() {
                 }}
                 onSubmit={handleSubmit}
               >
-                <h2>Iniciar sesión</h2>
-                <p>Ingresa tus credenciales</p>
+                <h2>{loginPage.title}</h2>
+                <p>{loginPage.description}</p>
                 <TextField
-                  label="Nombre de usuario"
+                  label={loginPage.usernameLabel}
                   name="username"
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -96,7 +99,7 @@ function Login() {
                   autoComplete="off"
                 />
                 <TextField
-                  label="Contraseña"
+                  label={loginPage.passwordLabel}
                   name="password"
                   type="password"
                   onChange={handleChange}
@@ -106,7 +109,7 @@ function Login() {
                   autoComplete="off"
                 />
 
-                <CButton type="submit">Iniciar sesión</CButton>
+                <CButton type="submit">{loginPage.submitButton}</CButton>
 
                 <GoogleLogin
                   onSuccess={handleGoogleResponse}

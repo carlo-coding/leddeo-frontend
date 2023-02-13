@@ -1,34 +1,13 @@
 import { Box, Popover } from "@mui/material";
 import React from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { langDetails, Languages, setPreferredLanguage } from "../../features";
 
 function ChoosePageLang() {
-  const availableLangs = [
-    {
-      countryCode: "GB",
-      languageCode: "en",
-      description: "English",
-    },
-    {
-      countryCode: "ES",
-      languageCode: "es",
-      description: "Español",
-    },
-    {
-      countryCode: "PT",
-      languageCode: "pt",
-      description: "Português",
-    },
-    {
-      countryCode: "FR",
-      languageCode: "fr",
-      description: "Français",
-    },
-  ];
+  const dispatch = useAppDispatch();
+  const lang = useAppSelector((state) => state.lang.details);
 
-  const [lang, setLang] = React.useState({
-    countryCode: "ES",
-    languageCode: "es",
-  });
+  const availableLangs: Languages[] = Object.keys(langDetails) as any;
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -86,12 +65,12 @@ function ChoosePageLang() {
               padding: "0.3em 0.5em",
             }}
             onClick={() => {
-              setLang(al);
+              dispatch(setPreferredLanguage(al));
               handleClose();
             }}
-            key={al.countryCode}
+            key={langDetails[al].description}
           >
-            {al.description}
+            {langDetails[al].description}
           </Box>
         ))}
       </Popover>

@@ -21,6 +21,10 @@ function Profile() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const profilePage = useAppSelector(
+    (state) => state.lang.pageLanguage.pages.profile
+  );
+
   const numberOfSubtitlesTranslated = history.reduce((acc, curr) => {
     if (curr.action === HistoryActions.SUBTITLE_TRANSLATE) {
       return acc + 1;
@@ -93,7 +97,7 @@ function Profile() {
               fontSize: "1.7em",
             }}
           >
-            Perfil
+            {profilePage.title}
           </Typography>
           <CButton
             sx={{
@@ -102,7 +106,7 @@ function Profile() {
             }}
             onClick={handleOpenEdit}
           >
-            Editar Perfil
+            {profilePage.editButton}
           </CButton>
           {/* Profile box */}
           <Box
@@ -123,7 +127,7 @@ function Profile() {
             >
               {user?.username}
             </Typography>
-            <h2>Actualmente en beta gratuita</h2>
+            <h2>{profilePage.platformStatus}</h2>
             {/* <Typography
               sx={{
                 fontSize: "2em",
@@ -201,13 +205,13 @@ function Profile() {
             }}
           >
             <Typography sx={{ fontSize: "1.4em" }}>
-              Subtítulos traducidos
+              {profilePage.historySubtitlesTranslated}
             </Typography>
             <Typography sx={{ fontSize: "2.1em" }}>
               {numberOfSubtitlesTranslated}
             </Typography>
             <Typography sx={{ fontSize: "1.4em" }}>
-              Videos descargados
+              {profilePage.historyVideosDownloaded}
             </Typography>
             <Typography sx={{ fontSize: "2.1em" }}>
               {numberOfDownloadedVideos}
@@ -219,7 +223,7 @@ function Profile() {
                 navigate(`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.HISTORY}`);
               }}
             >
-              Ver historial
+              {profilePage.historyButton}
             </CButton>
           </Box>
           <div></div>
@@ -231,7 +235,7 @@ function Profile() {
               padding: "0.9em",
             }}
           >
-            <Typography>¿Alguna sugerencia?</Typography>
+            <Typography>{profilePage.supportQuestion}</Typography>
             <Box
               sx={{
                 padding: "0.6em 0.9em",
@@ -242,7 +246,7 @@ function Profile() {
                 },
               }}
             >
-              Puedes mandarnos un correo a{" "}
+              {profilePage.supportMessage}{" "}
               <a href="mailto:support@leddeo.com">support@leddeo.com</a>
             </Box>
           </Box>

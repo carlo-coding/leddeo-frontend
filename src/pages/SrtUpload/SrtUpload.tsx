@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { FileUpload, Layout } from "../../components";
 import { setSubtitleList } from "../../features/subtitle/subtitleSlice";
 import { PublicRoutes } from "../../models";
@@ -10,6 +10,9 @@ import { validateSrtFile } from "../../utils";
 function SrtUpload() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const srtuploadPage = useAppSelector(
+    (state) => state.lang.pageLanguage.pages.srtupload
+  );
   const handleFileUpload = async (files: (null | File)[]) => {
     const srtArray = await validateSrtFile(files[0]);
     if (srtArray) {
@@ -65,10 +68,10 @@ function SrtUpload() {
       >
         <FileUpload
           onFilesAdded={handleFileUpload}
-          title="Ahora, sube un archivo SRT para continuar el proyecto"
-          subbutton="O arrastra un archivo aquí"
+          title={srtuploadPage.title}
+          subbutton={srtuploadPage.dropText}
         >
-          Suelta aquí tu archivo SRT
+          {srtuploadPage.uploadButton}
         </FileUpload>
       </Box>
     </Layout>

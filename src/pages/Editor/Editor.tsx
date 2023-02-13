@@ -1,6 +1,5 @@
 import { Box, IconButton, useMediaQuery } from "@mui/material";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   Layout,
@@ -8,7 +7,6 @@ import {
   openModal,
   SelectLanguage,
   setModalContent,
-  SubtitleEditor,
   Subtitles,
 } from "../../components";
 import Timeline from "../../components/Timeline";
@@ -28,6 +26,10 @@ export const firstRow = "76vh";
 function Editor() {
   const isMobile = useMediaQuery("(max-width:900px)");
   const dispatch = useAppDispatch();
+
+  const editor = useAppSelector(
+    (state) => state.lang.pageLanguage.pages.editor
+  );
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isVideoPaused, setIsVideoPaused] = useState(true);
@@ -193,7 +195,7 @@ function Editor() {
                 backgroundColor: "layout.white",
               }}
             >
-              {isMobile ? <TranslateIcon /> : "TRADUCIR SUBTÍTULOS"}
+              {isMobile ? <TranslateIcon /> : editor.translateButton}
             </Box>
           </Box>
         </Box>
@@ -269,7 +271,7 @@ function Editor() {
               pauseVideo();
             }}
           >
-            Descargar video
+            {editor.downloadVideo}
           </Box>
 
           <Box
@@ -278,7 +280,7 @@ function Editor() {
               downLoadFile(jsonToSrt(dataSubtitles), "subtitles.srt");
             }}
           >
-            Descargar SRT
+            {editor.downloadSrt}
           </Box>
         </Box>
       </Box>

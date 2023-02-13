@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { FileUpload, Layout } from "../../components";
 import { setVideo } from "../../features/videos/videoSlice";
 import { PublicRoutes } from "../../models";
@@ -9,6 +9,9 @@ import { validateVideoFile } from "../../utils";
 
 function Upload() {
   const navigate = useNavigate();
+  const uploadPage = useAppSelector(
+    (state) => state.lang.pageLanguage.pages.upload
+  );
   const dispatch = useAppDispatch();
   const handleFilesAdded = async (files: (File | null)[]) => {
     const file = await validateVideoFile(files[0]);
@@ -65,11 +68,11 @@ function Upload() {
       >
         <FileUpload
           onFilesAdded={handleFilesAdded}
-          title="¡Excelente manera de comenzar!"
-          subtitle="Ahora, sube un archivo de vídeo para iniciar un proyecto"
-          subbutton="O arrastra un archivo aquí"
+          title={uploadPage.title}
+          subtitle={uploadPage.description}
+          subbutton={uploadPage.dropText}
         >
-          Selecciona un archivo de video
+          {uploadPage.uploadButton}
         </FileUpload>
       </Box>
     </Layout>

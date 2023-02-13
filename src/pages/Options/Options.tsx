@@ -1,5 +1,4 @@
-import { Box, Button } from "@mui/material";
-import { AnyAction } from "@reduxjs/toolkit";
+import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { CButton, Layout, Loading } from "../../components";
@@ -65,6 +64,9 @@ function Options() {
     srt: false,
     automatic: false,
   });
+  const optionsPage = useAppSelector(
+    (state) => state.lang.pageLanguage.pages.options
+  );
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -97,25 +99,25 @@ function Options() {
         }}
       >
         <Option
-          title="Subtitulado automático"
-          subtitle="Leddeo hace los subtítulos por tí ¿Más fácil? imposible"
+          title={optionsPage.titleAutomatic}
+          subtitle={optionsPage.subtitleAutomatic}
           onClick={automatic}
         >
-          Continuar proyecto
+          {optionsPage.startButtonAutomatic}
         </Option>
         <Option
-          title="Subir SRT"
-          subtitle="Deja que Leddeo integre tu archivo SRT al vídeo"
+          title={optionsPage.titleSrtUpload}
+          subtitle={optionsPage.subtitleSrtUpload}
           onClick={srt}
         >
-          Continuar proyecto
+          {optionsPage.startButtonSrtUpload}
         </Option>
         <Option
-          title="Subtitulado manual"
-          subtitle="Usa las herramientas que te ofrece Leddeo para un subtítulado de calidad"
+          title={optionsPage.titleManual}
+          subtitle={optionsPage.subtitleManual}
           onClick={manual}
         >
-          Continuar proyecto
+          {optionsPage.startButtonManual}
         </Option>
       </Box>
     </Layout>

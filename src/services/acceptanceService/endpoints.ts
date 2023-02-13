@@ -1,3 +1,3 @@
 export enum AcceptanceServiceEndpoints {
-  GET_LATEST = "/acceptance/latest",
+  GET_LATEST = "/acceptance/latest/",
 }

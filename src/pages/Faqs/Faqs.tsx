@@ -10,6 +10,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 function Faqs() {
+  const faqsPage = useAppSelector(
+    (state) => state.lang.pageLanguage.pages.faqs
+  );
   const faqs = useAppSelector((state) => state.faq.data);
 
   const navigate = useNavigate();
@@ -46,8 +49,10 @@ function Faqs() {
               margin: "1em 0",
             }}
           >
-            <h2>Preguntas frecuentes</h2>
-            <CButton onClick={() => navigate("/")}>Empezar proyecto</CButton>
+            <h2>{faqsPage.title}</h2>
+            <CButton onClick={() => navigate("/")}>
+              {faqsPage.sideButton}
+            </CButton>
           </Box>
           {faqs.map((faq) => (
             <Accordion key={faq.id}>

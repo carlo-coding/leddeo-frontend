@@ -1,10 +1,13 @@
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import FacebookIcon from "@mui/icons-material/Facebook";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+import { useAppSelector } from "../../app/hooks";
 
 function Footer() {
+  const footerComp = useAppSelector(
+    (state) => state.lang.pageLanguage.pages.footer
+  );
   return (
     <Box
       sx={{
@@ -22,11 +25,11 @@ function Footer() {
       <span>Leddeo</span>
       <span>
         <a target="_blank" href="/terms">
-          Terminos y condiciones
+          {footerComp.terms}
         </a>
       </span>
       <span>
-        Contactanos:
+        {footerComp.contact}:
         <a href="mailto:support@leddeo.com"> support@leddeo.com</a>
       </span>
       <IconButton>

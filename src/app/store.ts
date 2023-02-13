@@ -7,6 +7,7 @@ import {
   authSlice,
   faqSlice,
   historySlice,
+  languageSlice,
   subtitleSlice,
   userSlice,
   videoSlice,
@@ -25,6 +26,7 @@ export const store = configureStore({
     sidebar: sidebarSlice,
     font: fontSlice,
     acceptance: acceptanceSlice,
+    lang: languageSlice,
   },
   middleware: [thunk],
 });

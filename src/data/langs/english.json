@@ -1,0 +1,81 @@
+{
+  "pages": {
+    "editor": {
+      "translateButton": "TRANSLATE SUBTITLES",
+      "downloadSrt": "Download SRT",
+      "downloadVideo": "Download video",
+      "subtitlesTab": "Subtitles",
+      "stylesTab": "Styles",
+      "styleEditorBackground": "Use background color",
+      "styleEditorFont": "Text font",
+      "styleEditorSize": "Text size"
+    },
+    "faqs": {
+      "title": "Frequent questions",
+      "sideButton": "Start project"
+    },
+    "history": {
+      "subtitleTranslate": "Subtitle translation",
+      "videoCaption": "Subtitled video download"
+    },
+    "landing": {
+      "description": "Thanks to our powerful technology, you can leave all the hard work to LEDDEO. The fastest and easiest way to caption!",
+      "slogan": "PUT IT IN WORDS",
+      "leftButton": "Try it now",
+      "rightButton": "View prices"
+    },
+    "login": {
+      "title": "Log in",
+      "description": "Enter your credentials",
+      "usernameLabel": "Username",
+      "passwordLabel": "Password",
+      "submitButton": "Log in"
+    },
+    "options": {
+      "titleAutomatic": "Automatic captioning",
+      "subtitleAutomatic": "Leddeo does the subtitles for you. Easier? impossible",
+      "startButtonAutomatic": "Continue project",
+      "titleSrtUpload": "Upload SRT",
+      "subtitleSrtUpload": "Let Leddeo embed your SRT file to video",
+      "startButtonSrtUpload": "Continue project",
+      "titleManual": "Manual captioning",
+      "subtitleManual": "Use the tools that Leddeo offers you for quality subtitling",
+      "startButtonManual": "Continue project"
+    },
+    "plans": {},
+    "profile": {
+      "title": "Profile",
+      "editButton": "Edit Profile",
+      "platformStatus": "Currently in free beta",
+      "supportQuestion": "Any suggestion?",
+      "supportMessage": "You can send us an email to",
+      "historyButton": "View history",
+      "historySubtitlesTranslated": "Translated subtitles",
+      "historyVideosDownloaded": "Videos downloaded"
+    },
+    "signup": {
+      "title": "Create an account",
+      "description": "Personal information",
+      "usernameLabel": "Username",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "termsAndConditions": "I accept the terms and conditions",
+      "submitButton": "Create account"
+    },
+    "srtupload": {
+      "title": "Now, upload an SRT file to continue the project",
+      "uploadButton": "Select an SRT file",
+      "dropText": "Or drag a file here"
+    },
+    "footer": {
+      "terms": "Terms and Conditions",
+      "contact": "Contact us"
+    },
+    "upload": {
+      "title": "Great way to start!",
+      "description": "Now, upload a video file to start a project",
+      "uploadButton": "Select a video file",
+      "dropText": "Or drag a file here"
+    }
+  }
+}

@@ -1,14 +1,15 @@
 import { Layout } from "../../components";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { useAppSelector } from "../../app/hooks";
 function TermsConditions() {
   const template = useAppSelector((state) => state.acceptance.latest?.template);
   return (
-    <Layout>
+    <Layout showFooter>
       <Box
         sx={{
           color: "layout.white",
           width: "100%",
+          height: "100%",
           padding: "1em",
         }}
       >

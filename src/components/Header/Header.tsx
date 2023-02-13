@@ -1,6 +1,6 @@
 import { AppBar, Box, IconButton } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
-// import { ChoosePageLang } from "../ChoosePageLang";
+import { ChoosePageLang } from "../ChoosePageLang";
 import { useNavigate } from "react-router-dom";
 import { PrivateRoutes, PublicRoutes } from "../../models";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -47,7 +47,7 @@ function Header() {
           gap: "10px",
         }}
       >
-        {/* <ChoosePageLang /> */}
+        <ChoosePageLang />
 
         <IconButton
           onClick={handleToggleSidebar}

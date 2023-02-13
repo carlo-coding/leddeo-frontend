@@ -8,6 +8,9 @@ import { HistoryActions } from "../../models";
 function History() {
   const history = useAppSelector((state) => state.history.data);
   const dispatch = useAppDispatch();
+  const historyPage = useAppSelector(
+    (state) => state.lang.pageLanguage.pages.history
+  );
 
   function convertDate(dateString: string) {
     const date = new Date(dateString);
@@ -24,8 +27,8 @@ function History() {
   }, []);
 
   const actions = {
-    [HistoryActions.SUBTITLE_TRANSLATE]: "Traducción de subtitulos",
-    [HistoryActions.VIDEO_CAPTION]: "Descarga de video sutitulado",
+    [HistoryActions.SUBTITLE_TRANSLATE]: historyPage.subtitleTranslate,
+    [HistoryActions.VIDEO_CAPTION]: historyPage.videoCaption,
   };
 
   return (

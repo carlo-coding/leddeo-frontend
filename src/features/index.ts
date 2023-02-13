@@ -9,6 +9,7 @@ export * from "./faq/interfaces/faqState";
 export * from "./font";
 export * from "./history";
 export * from "./history/interfaces/historyState";
+export * from "./language";
 export * from "./subtitle";
 export * from "./subtitle/interfaces/SubtitleState";
 export * from "./user";

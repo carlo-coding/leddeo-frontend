@@ -1,6 +1,5 @@
 import { useMediaQuery, IconButton } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import UploadIcon from "@mui/icons-material/Upload";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { deleteCookie } from "../../utils";
@@ -32,7 +31,7 @@ function Sidebar() {
     <motion.nav
       animate={open || !isMobile ? "open" : "closed"}
       variants={variants}
-      initial={variants.closed}
+      initial={open || !isMobile ? variants.open : variants.closed}
       style={{
         backgroundColor: "#FFFFFF",
         display: "flex",
@@ -50,10 +49,10 @@ function Sidebar() {
     >
       <IconButton
         onClick={() => {
-          navigate(`/`);
+          navigate(`/${PublicRoutes.UPLOAD}`);
         }}
       >
-        <HomeIcon sx={{ color: "layout.black" }} />
+        <UploadIcon sx={{ color: "layout.black" }} />
       </IconButton>
 
       {/* <IconButton

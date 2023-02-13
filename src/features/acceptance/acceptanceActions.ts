@@ -4,10 +4,10 @@ import { serviceGetLatestAcceptance } from "../../services";
 
 export const getLatestAceptance = createAsyncThunk(
   "acceptance/getLatestAceptance",
-  async () => {
-    const [response, error] = await serviceGetLatestAcceptance();
+  async (lang: string) => {
+    const [response, error] = await serviceGetLatestAcceptance(lang);
     if (error !== null) {
-      enqueueSnackbar(error.message, { variant: "error" });
+      error.message && enqueueSnackbar(error.message, { variant: "error" });
       return null;
     }
     return response;

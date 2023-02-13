@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import { SubtitleEditor } from "../../../../components";
 import { StylesEditor } from "../../../../components/StylesEditor";
 import { styled } from "@mui/material/styles";
+import { useAppSelector } from "../../../../app/hooks";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -92,6 +93,10 @@ const StyledTabs = styled((props: StyledTabsProps) => (
 export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
 
+  const editor = useAppSelector(
+    (state) => state.lang.pageLanguage.pages.editor
+  );
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -115,8 +120,8 @@ export default function BasicTabs() {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <StyledTab label="Subtítulos" {...a11yProps(0)} />
-          <StyledTab label="Estilos" {...a11yProps(1)} />
+          <StyledTab label={editor.subtitlesTab} {...a11yProps(0)} />
+          <StyledTab label={editor.stylesTab} {...a11yProps(1)} />
         </StyledTabs>
       </Box>
       <TabPanel value={value} index={0}>

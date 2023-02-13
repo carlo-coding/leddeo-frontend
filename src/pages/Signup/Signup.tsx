@@ -17,6 +17,10 @@ function Signup() {
     setTermsChecked(e.currentTarget.checked);
   };
 
+  const signupPage = useAppSelector(
+    (state) => state.lang.pageLanguage.pages.signup
+  );
+
   const acceptance_id = useAppSelector((state) => state.acceptance.latest?.id);
 
   const handleGoogleError = () =>
@@ -125,10 +129,10 @@ function Signup() {
                 }}
                 onSubmit={handleSubmit}
               >
-                <h2>Crear una cuenta</h2>
-                <p>Información personal</p>
+                <h2>{signupPage.title}</h2>
+                <p>{signupPage.description}</p>
                 <TextField
-                  label="Nombre de usuario"
+                  label={signupPage.usernameLabel}
                   name="username"
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -136,7 +140,7 @@ function Signup() {
                   error={Boolean(getInputError("username"))}
                 />
                 <TextField
-                  label="Correo electrónico"
+                  label={signupPage.emailLabel}
                   name="email"
                   type="email"
                   onChange={handleChange}
@@ -145,7 +149,7 @@ function Signup() {
                   error={Boolean(getInputError("email"))}
                 />
                 <TextField
-                  label="Contraseña"
+                  label={signupPage.passwordLabel}
                   name="password"
                   type="password"
                   onChange={handleChange}
@@ -165,13 +169,13 @@ function Signup() {
                     checked={temrsChecked}
                   />
                   <a target="_blank" href="terms">
-                    Acepto los términos y condiciones
+                    {signupPage.termsAndConditions}
                   </a>
                 </Box>
 
                 {temrsChecked && (
                   <>
-                    <CButton type="submit">Crear cuenta</CButton>
+                    <CButton type="submit">{signupPage.submitButton}</CButton>
 
                     <GoogleLogin
                       onSuccess={handleGoogleResponse}

@@ -45,6 +45,9 @@ function StylesEditor() {
   const [sendBgColor, setSendBgColor] = useState(true);
   const dispatch = useAppDispatch();
   const fonts = useAppSelector((state) => state.font.list);
+  const editor = useAppSelector(
+    (state) => state.lang.pageLanguage.pages.editor
+  );
 
   const vertAlignVals = {
     bottom: "top",
@@ -147,7 +150,7 @@ function StylesEditor() {
             }}
           />
         }
-        label="Usar color de fondo"
+        label={editor.styleEditorBackground}
       />
       <Box
         sx={{
@@ -220,7 +223,7 @@ function StylesEditor() {
           },
         }}
       >
-        <p>Fuente</p>
+        <p>{editor.styleEditorFont}</p>
         <select onChange={handleSelectFont} value={style.font}>
           {fonts?.map((font) => (
             <option key={font} value={font}>
@@ -228,7 +231,7 @@ function StylesEditor() {
             </option>
           ))}
         </select>
-        <p>Tamaño</p>
+        <p>{editor.styleEditorSize}</p>
         <input type="number" value={style.size} onChange={handleSelectSize} />
       </Box>
     </Box>

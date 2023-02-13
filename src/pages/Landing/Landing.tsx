@@ -6,9 +6,13 @@ import FastForwardIcon from "@mui/icons-material/FastForward";
 import FastRewindIcon from "@mui/icons-material/FastRewind";
 import { useNavigate } from "react-router-dom";
 import { PublicRoutes } from "../../models";
+import { useAppSelector } from "../../app/hooks";
 
 function Landing() {
   const isMobile = useMediaQuery("(max-width:900px)");
+  const landingPage = useAppSelector(
+    (state) => state.lang.pageLanguage.pages.landing
+  );
 
   const contPadding = isMobile ? 15 : 25;
   const mainLineHeight = 100;
@@ -100,7 +104,7 @@ function Landing() {
                 fontStyle: "italic",
               }}
             >
-              PONLO EN PALABRAS
+              {landingPage.slogan}
             </Typography>
             <Typography
               sx={{
@@ -112,9 +116,7 @@ function Landing() {
                 fontStyle: "italic",
               }}
             >
-              Gracias a nuestra poderosa tecnología, puedes dejarle todo el
-              trabajo duro a LEDDEO. ¡La manera más rápida y fácil de
-              subtitular!
+              {landingPage.description}
             </Typography>
             <Box
               sx={{
@@ -133,7 +135,7 @@ function Landing() {
                   padding: "0.6em 2.4em",
                 }}
               >
-                Pruébalo ahora
+                {landingPage.leftButton}
               </CButton>
               {/* <CButton
                 onClick={() => navigate(`/${PublicRoutes.PLANS}`)}
@@ -142,7 +144,7 @@ function Landing() {
                   padding: "0.6em 2.4em",
                 }}
               >
-                Ver precios
+                {landingPage.rightButton}
               </CButton> */}
             </Box>
           </Box>
