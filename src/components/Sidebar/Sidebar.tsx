@@ -32,6 +32,7 @@ function Sidebar() {
     <motion.nav
       animate={open || !isMobile ? "open" : "closed"}
       variants={variants}
+      initial={variants.closed}
       style={{
         backgroundColor: "#FFFFFF",
         display: "flex",
