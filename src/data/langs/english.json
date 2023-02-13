@@ -59,7 +59,8 @@
       "usernameLabel": "Username",
       "emailLabel": "Email",
       "passwordLabel": "Password",
-      "termsAndConditions": "I accept the terms and conditions",
+      "termsAndConditionsText": "By creating an account you are agreeing to our",
+      "termsAndConditions": "terms and conditions",
       "submitButton": "Create account"
     },
     "srtupload": {

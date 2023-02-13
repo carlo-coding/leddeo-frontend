@@ -59,7 +59,8 @@
       "usernameLabel": "Nombre de usuario",
       "emailLabel": "Correo electrónico",
       "passwordLabel": "Contraseña",
-      "termsAndConditions": "Acepto los términos y condiciones",
+      "termsAndConditionsText": "Al crear una cuenta estás aceptando nuestros ",
+      "termsAndConditions": "términos y condiciones",
       "submitButton": "Crear cuenta"
     },
     "srtupload": {

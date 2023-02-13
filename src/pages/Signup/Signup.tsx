@@ -162,29 +162,29 @@ function Signup() {
                   sx={{
                     display: "flex",
                     alignItems: "center",
+                    maxWidth: "280px",
+                    fontSize: "12px",
                   }}
                 >
-                  <Checkbox
-                    onChange={handleTermsChange}
-                    checked={temrsChecked}
-                  />
-                  <a target="_blank" href="terms">
-                    {signupPage.termsAndConditions}
-                  </a>
+                  <p>
+                    {signupPage.termsAndConditionsText}
+                    <a target="_blank" href="terms">
+                      {" "}
+                      {signupPage.termsAndConditions}
+                    </a>
+                  </p>
                 </Box>
 
-                {temrsChecked && (
-                  <>
-                    <CButton type="submit">{signupPage.submitButton}</CButton>
+                <>
+                  <CButton type="submit">{signupPage.submitButton}</CButton>
 
-                    <GoogleLogin
-                      onSuccess={handleGoogleResponse}
-                      onError={() => {
-                        handleGoogleError();
-                      }}
-                    />
-                  </>
-                )}
+                  <GoogleLogin
+                    onSuccess={handleGoogleResponse}
+                    onError={() => {
+                      handleGoogleError();
+                    }}
+                  />
+                </>
               </Box>
             );
           }}
