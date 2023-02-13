@@ -17,11 +17,11 @@ const fontSlice = createSlice({
       state.status = IAsyncStatus.PENDING;
     });
     builder.addCase(getFontsList.rejected, (state) => {
-      state.list = [];
       state.status = IAsyncStatus.FAILED;
     });
     builder.addCase(getFontsList.fulfilled, (state, action) => {
-      state.list = action.payload;
+      if (action.payload)
+        state.list = action.payload.map((f) => f.slice(0, -4));
       state.status = IAsyncStatus.FULFILLED;
     });
   },
