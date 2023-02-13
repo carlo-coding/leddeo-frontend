@@ -21,7 +21,6 @@ const Options = lazy(async () => await import("./pages/Options/Options"));
 const SrtUpload = lazy(async () => await import("./pages/SrtUpload/SrtUpload"));
 const Faqs = lazy(async () => await import("./pages/Faqs/Faqs"));
 const Landing = lazy(async () => await import("./pages/Landing/Landing"));
-const Policies = lazy(async () => await import("./pages/Policies/Policies"));
 const TermsConditions = lazy(
   async () => await import("./pages/TermsConditions/TermsConditions")
 );
@@ -45,7 +44,6 @@ function App() {
                     path={PublicRoutes.TERMS}
                     element={<TermsConditions />}
                   />
-                  <Route path={PublicRoutes.POLICIES} element={<Policies />} />
                   <Route path={PublicRoutes.LANDING} element={<Landing />} />
                   <Route path={PublicRoutes.UPLOAD} element={<Upload />} />
                   <Route path={PublicRoutes.PLANS} element={<Plans />} />

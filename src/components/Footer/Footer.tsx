@@ -26,11 +26,6 @@ function Footer() {
         </a>
       </span>
       <span>
-        <a target="_blank" href="/policies">
-          Políticas de privacidad
-        </a>
-      </span>
-      <span>
         Contactanos:
         <a href="mailto:support@leddeo.com"> support@leddeo.com</a>
       </span>

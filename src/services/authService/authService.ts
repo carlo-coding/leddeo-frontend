@@ -1,5 +1,6 @@
 import {
   IGetTokenPayload,
+  IGoogleRegister,
   IRefreshTokenPayload,
   ISignUpPayload,
 } from "../../models";
@@ -51,7 +52,7 @@ export async function serviceRefreshToken(payload: IRefreshTokenPayload) {
   return resp;
 }
 
-export async function serviceGoogleAuth(credential: string) {
+export async function serviceGoogleAuth(payload: IGoogleRegister) {
   const resp = await request<{
     access: string;
     refresh: string;
@@ -59,7 +60,7 @@ export async function serviceGoogleAuth(credential: string) {
     endpoint: AuthServiceEndpoints.GOOGLE_AUTH,
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: { token: credential },
+    body: payload,
   });
   return resp;
 }

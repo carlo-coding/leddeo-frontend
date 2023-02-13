@@ -1,3 +1,4 @@
+export * from "./Acceptance";
 export * from "./Faq";
 export * from "./History";
 export type { default as Plan } from "./Plan";

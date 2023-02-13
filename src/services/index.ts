@@ -1,3 +1,4 @@
+export * from "./acceptanceService";
 export * from "./authService";
 export * from "./checkoutService";
 export * from "./faqService";

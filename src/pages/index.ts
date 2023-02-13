@@ -12,7 +12,6 @@ export * from "./Plans/data";
 export * from "./Plans";
 export * from "./Plans/subcomps/PlanPanel";
 export * from "./Plans/subcomps";
-export * from "./Policies";
 export * from "./Private";
 export * from "./Profile";
 export * from "./Signup";

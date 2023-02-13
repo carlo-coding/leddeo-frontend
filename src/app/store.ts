@@ -3,6 +3,7 @@ import thunk from "redux-thunk";
 import { modalSlice } from "../components";
 import { sidebarSlice } from "../components/Sidebar";
 import {
+  acceptanceSlice,
   authSlice,
   faqSlice,
   historySlice,
@@ -23,6 +24,7 @@ export const store = configureStore({
     auth: authSlice,
     sidebar: sidebarSlice,
     font: fontSlice,
+    acceptance: acceptanceSlice,
   },
   middleware: [thunk],
 });

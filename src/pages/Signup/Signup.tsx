@@ -1,11 +1,10 @@
 import { Box, FormControlLabel, Checkbox } from "@mui/material";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { CButton, Layout } from "../../components";
 import { googleAuth, signup } from "../../features";
 import { ISignUpPayload } from "../../models";
 import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
 import { enqueueSnackbar } from "notistack";
-import { ISignupPayload } from "./interfaces/Signup";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { TextField } from "@mui/material";
@@ -17,6 +16,8 @@ function Signup() {
   const handleTermsChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setTermsChecked(e.currentTarget.checked);
   };
+
+  const acceptance_id = useAppSelector((state) => state.acceptance.latest?.id);
 
   const handleGoogleError = () =>
     enqueueSnackbar("Hubo un error obteniendo permisos de google", {
@@ -36,10 +37,16 @@ function Signup() {
       handleGoogleError();
       return;
     }
-    dispatch(googleAuth(response.credential));
+    dispatch(
+      googleAuth({
+        token: response.credential,
+        acceptance_id: acceptance_id,
+      })
+    );
   };
 
-  const initialValues: ISignupPayload = {
+  const initialValues: ISignUpPayload = {
+    acceptance_id: acceptance_id,
     username: "",
     email: "",
     password: "",
@@ -71,7 +78,7 @@ function Signup() {
       ),
   });
 
-  const handleFormSubmit = async (values: ISignupPayload) => {
+  const handleFormSubmit = async (values: ISignUpPayload) => {
     if (!temrsChecked) {
       enqueueSnackbar("Primero debes aceptar los términos y condiciones", {
         variant: "error",

@@ -1,11 +1,19 @@
 import { Layout } from "../../components";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { useAppSelector } from "../../app/hooks";
 function TermsConditions() {
+  const template = useAppSelector((state) => state.acceptance.latest?.template);
   return (
     <Layout>
-      <Typography sx={{ color: "layout.white" }}>
-        Aquí van los términos y condiciones de servicio
-      </Typography>
+      <Box
+        sx={{
+          color: "layout.white",
+          width: "100%",
+          padding: "1em",
+        }}
+      >
+        {template && <Box dangerouslySetInnerHTML={{ __html: template }}></Box>}
+      </Box>
     </Layout>
   );
 }

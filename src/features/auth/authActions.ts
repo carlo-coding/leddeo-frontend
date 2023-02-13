@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { enqueueSnackbar } from "notistack";
 import {
   IGetTokenPayload,
-  IRefreshTokenPayload,
+  IGoogleRegister,
   ISignUpPayload,
   PrivateRoutes,
 } from "../../models";
@@ -27,7 +27,7 @@ export const signup = createAsyncThunk(
 
 export const googleAuth = createAsyncThunk(
   "auth/signup",
-  async (payload: string) => {
+  async (payload: IGoogleRegister) => {
     const [response, error] = await serviceGoogleAuth(payload);
     if (error !== null) {
       return enqueueSnackbar(error.message, { variant: "error" });

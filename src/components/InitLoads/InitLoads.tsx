@@ -1,6 +1,12 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "../../app/hooks";
-import { getFaqs, getFontsList, getUser, loadFonts } from "../../features";
+import {
+  getFaqs,
+  getFontsList,
+  getLatestAceptance,
+  getUser,
+  loadFonts,
+} from "../../features";
 
 interface InitLoadsProps {
   children?: React.ReactElement;
@@ -14,6 +20,7 @@ function InitLoads({ children }: InitLoadsProps) {
     dispatch(getFaqs());
     dispatch(getFontsList());
     dispatch(loadFonts());
+    dispatch(getLatestAceptance());
   }, []);
   return <>{children}</>;
 }
