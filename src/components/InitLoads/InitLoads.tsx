@@ -33,7 +33,7 @@ function InitLoads({ children }: InitLoadsProps) {
             closeSnackbar(snackbarId);
           }}
         >
-          Cerrar
+          Ok
         </button>
       </Box>
     </>
