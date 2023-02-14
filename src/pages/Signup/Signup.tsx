@@ -8,14 +8,9 @@ import { enqueueSnackbar } from "notistack";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { TextField } from "@mui/material";
-import { useState } from "react";
 
 function Signup() {
   const dispatch = useAppDispatch();
-  const [temrsChecked, setTermsChecked] = useState(false);
-  const handleTermsChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setTermsChecked(e.currentTarget.checked);
-  };
 
   const signupPage = useAppSelector(
     (state) => state.lang.pageLanguage.pages.signup
@@ -31,12 +26,6 @@ function Signup() {
   const handleGoogleResponse = async (
     response: CredentialResponse
   ): Promise<void> => {
-    if (!temrsChecked) {
-      enqueueSnackbar("Primero debes aceptar los términos y condiciones", {
-        variant: "error",
-      });
-      return;
-    }
     if (!response.credential) {
       handleGoogleError();
       return;
@@ -83,12 +72,6 @@ function Signup() {
   });
 
   const handleFormSubmit = async (values: ISignUpPayload) => {
-    if (!temrsChecked) {
-      enqueueSnackbar("Primero debes aceptar los términos y condiciones", {
-        variant: "error",
-      });
-      return;
-    }
     dispatch(signup(values));
   };
 
