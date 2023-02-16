@@ -8,9 +8,11 @@ import { CButton } from "../CButton";
 import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { toggleSidebar } from "../Sidebar/sidebarSlice/sidebarSlice";
+import { useCustomPush } from "../../hooks";
 
 function Header() {
   const navigate = useNavigate();
+  const push = useCustomPush();
   const dispatch = useAppDispatch();
   const isAuthenticaed = useAppSelector((state) => state.auth.isAuthenticated);
 
@@ -33,7 +35,7 @@ function Header() {
           typography: "logo",
           padding: "0",
         }}
-        onClick={() => navigate("/")}
+        onClick={() => push("/")}
       >
         LEDDEO
       </Box>
@@ -62,15 +64,15 @@ function Header() {
         </IconButton>
 
         {isAuthenticaed ? (
-          <IconButton onClick={() => navigate(`/${PrivateRoutes.PRIVATE}`)}>
+          <IconButton onClick={() => push(`/${PrivateRoutes.PRIVATE}`)}>
             <PersonIcon sx={{ color: "layout.white", fontSize: "30px" }} />
           </IconButton>
         ) : (
           <React.Fragment>
-            <CButton onClick={() => navigate(`/${PublicRoutes.LOGIN}`)}>
+            <CButton onClick={() => push(`/${PublicRoutes.LOGIN}`)}>
               Iniciar sesión
             </CButton>
-            <CButton onClick={() => navigate(`/${PublicRoutes.SIGNUP}`)}>
+            <CButton onClick={() => push(`/${PublicRoutes.SIGNUP}`)}>
               Crear una cuenta
             </CButton>
           </React.Fragment>

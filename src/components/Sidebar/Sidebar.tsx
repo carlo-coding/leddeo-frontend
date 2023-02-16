@@ -3,10 +3,10 @@ import UploadIcon from "@mui/icons-material/Upload";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { deleteCookie } from "../../utils";
-import { useNavigate } from "react-router-dom";
 import { PublicRoutes } from "../../models";
 import { useAppSelector } from "../../app/hooks";
 import { motion } from "framer-motion";
+import { useCustomPush } from "../../hooks";
 
 function Sidebar() {
   const variants = {
@@ -14,7 +14,7 @@ function Sidebar() {
     closed: { opacity: 0, x: "-100%" },
   };
 
-  const navigate = useNavigate();
+  const push = useCustomPush();
 
   const open = useAppSelector((state) => state.sidebar.open);
   const isAuthenticaed = useAppSelector((state) => state.auth.isAuthenticated);
@@ -45,11 +45,12 @@ function Sidebar() {
         bottom: 0,
         top: 0,
         zIndex: 500,
+        borderRight: "1px solid rgba(0,0,0,0.3)",
       }}
     >
       <IconButton
         onClick={() => {
-          navigate(`/${PublicRoutes.UPLOAD}`);
+          push(`/${PublicRoutes.UPLOAD}`);
         }}
       >
         <UploadIcon sx={{ color: "layout.black" }} />
@@ -57,7 +58,7 @@ function Sidebar() {
 
       {/* <IconButton
         onClick={() => {
-          navigate(`/${PublicRoutes.PLANS}`);
+          push(`/${PublicRoutes.PLANS}`);
         }}
       >
         <AttachMoneyIcon sx={{ color: "layout.black" }} />
@@ -69,7 +70,7 @@ function Sidebar() {
 
       <IconButton
         onClick={() => {
-          navigate(`/${PublicRoutes.FAQS}`);
+          push(`/${PublicRoutes.FAQS}`);
         }}
       >
         <QuestionMarkIcon sx={{ color: "layout.black" }} />

@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import { useAppDispatch } from "../../../app/hooks";
+import { CButton } from "../../CButton";
 import { closeModal } from "../redux";
 
 interface IUserConfirmProps {
@@ -8,14 +9,17 @@ interface IUserConfirmProps {
 }
 function UserConfirm({ children, cb }: IUserConfirmProps): JSX.Element {
   const dispatch = useAppDispatch();
-
   const handleClose = (): void => {
     dispatch(closeModal());
   };
 
   return (
     <>
-      <Box>
+      <Box
+        sx={{
+          color: "layout.veryDarkGray",
+        }}
+      >
         <Box>{children}</Box>
         <Box
           sx={{
@@ -25,18 +29,8 @@ function UserConfirm({ children, cb }: IUserConfirmProps): JSX.Element {
             marginTop: "15px",
           }}
         >
-          <Box
-            sx={{ width: "120px", fontSize: "14px", padding: "8px 0" }}
-            onClick={handleClose}
-          >
-            Cancelar
-          </Box>
-          <Box
-            sx={{ width: "120px", fontSize: "14px", padding: "8px 0" }}
-            onClick={cb}
-          >
-            Aceptar
-          </Box>
+          <CButton onClick={handleClose}>Cancelar</CButton>
+          <CButton onClick={cb}>Aceptar</CButton>
         </Box>
       </Box>
     </>

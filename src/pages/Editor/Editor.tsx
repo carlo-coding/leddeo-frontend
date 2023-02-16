@@ -8,6 +8,7 @@ import {
   SelectLanguage,
   setModalContent,
   Subtitles,
+  UserConfirm,
 } from "../../components";
 import Timeline from "../../components/Timeline";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
@@ -82,6 +83,24 @@ function Editor() {
     if (videoRef.current === null) return;
     videoRef.current.currentTime = 0;
   };
+
+  const handleSubtitlesTranslate = () => {
+    const cb = () => {
+      dispatch(setModalContent(<SelectLanguage />));
+      dispatch(openModal());
+    };
+
+    dispatch(
+      setModalContent(
+        <UserConfirm cb={cb}>
+          Al traducir se perderá el contenido original, te recomendamos
+          descargar tu progreso
+        </UserConfirm>
+      )
+    );
+    dispatch(openModal());
+  };
+
   return (
     <Layout>
       {status === IAsyncStatus.PENDING && <Loading />}
@@ -177,10 +196,7 @@ function Editor() {
 
             <Box
               component="button"
-              onClick={() => {
-                dispatch(setModalContent(<SelectLanguage />));
-                dispatch(openModal());
-              }}
+              onClick={handleSubtitlesTranslate}
               sx={{
                 position: "absolute",
                 right: "10px",

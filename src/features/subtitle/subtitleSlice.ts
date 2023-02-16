@@ -21,7 +21,7 @@ const initialState: TSubtitleState = {
   style: {
     vAlign: "bottom",
     hAlign: "center",
-    font: "Poppins",
+    font: "arial",
     color: "rgb(255,255,255)",
     size: 20,
     bgcolor: "rgb(102,102,102)",
