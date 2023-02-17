@@ -44,14 +44,14 @@ function InitLoads({ children }: InitLoadsProps) {
     dispatch(getFontsList());
     dispatch(loadFonts());
 
-    /* enqueueSnackbar(
+    enqueueSnackbar(
       `LEDDEO te da la bienvenida a la Beta gratuita
       Recuerda que esto es una versión temprana de LEDDEO por lo que si experimentas un error o quieres mejorar algo mándanos un correo a support@leddeo.com`,
       {
         action: action as any,
         autoHideDuration: 60 * 1000,
       }
-    ); */
+    );
   }, []);
 
   useEffect(() => {
