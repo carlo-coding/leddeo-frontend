@@ -1,7 +1,10 @@
 import { Box } from "@mui/material";
 import { memo, useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { updateBrokenSubtitleList } from "../../features/subtitle/subtitleSlice";
+import {
+  setCurrentSubtitleId,
+  updateBrokenSubtitleList,
+} from "../../features/subtitle/subtitleSlice";
 import { TSubtitleItem } from "../../models/responses";
 import { linesFromTextNode } from "../../utils";
 
@@ -31,6 +34,7 @@ function Subtitles({ videoRef, children }: TSubtitlesProps) {
       subtitlesRef.current.textContent = "";
       return;
     }
+    dispatch(setCurrentSubtitleId(subtitle.id));
     subtitlesRef.current.textContent =
       typeof subtitle?.text === "string" ? subtitle.text : null;
     const el = document.querySelector(".subtitle")?.firstChild;
@@ -45,6 +49,7 @@ function Subtitles({ videoRef, children }: TSubtitlesProps) {
 
   useEffect(() => {
     if (videoRef.current === null || subtitlesRef.current === null) return;
+    const lastSubtitle = subtitles[subtitles.length - 1];
     for (let subtitle of subtitles) {
       subtitlesRef.current.textContent =
         typeof subtitle?.text === "string" ? subtitle.text : null;
@@ -57,6 +62,8 @@ function Subtitles({ videoRef, children }: TSubtitlesProps) {
           })
         );
     }
+    subtitlesRef.current.textContent =
+      typeof lastSubtitle?.text === "string" ? lastSubtitle.text : null;
   }, [videoRef.current, subtitlesRef.current]);
 
   useEffect(() => {

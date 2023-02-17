@@ -1,4 +1,5 @@
 export * from "./CButton";
+export * from "./CSlider";
 export * from "./ChoosePageLang";
 export * from "./CountdownTimer";
 export * from "./FileUpload";

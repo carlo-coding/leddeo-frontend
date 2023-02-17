@@ -5,6 +5,7 @@ export interface TSubtitleState {
   list: TSubtitleItem[];
   broken: TSubtitleItem[];
   status: IAsyncStatus;
+  currentId?: string;
   style: {
     vAlign: string;
     hAlign: string;

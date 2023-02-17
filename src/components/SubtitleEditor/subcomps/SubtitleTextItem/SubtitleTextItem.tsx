@@ -28,6 +28,7 @@ function SubtitleTextItem({ id, index }: TSubtitleTextItemProps) {
         id: "",
       }
   );
+  const currentSubtitleId = useAppSelector((state) => state.subtitle.currentId);
   const subtitles = useAppSelector((state) => state.subtitle.list);
 
   function validateTimeline(begin: number, end: number) {
@@ -75,6 +76,8 @@ function SubtitleTextItem({ id, index }: TSubtitleTextItemProps) {
         display: "flex",
         position: "relative",
         width: "100%",
+        outline: "3px solid transparent",
+        outlineColor: currentSubtitleId === item.id ? "#52af77" : "transparent",
       }}
     >
       <Box
@@ -113,15 +116,14 @@ function SubtitleTextItem({ id, index }: TSubtitleTextItemProps) {
         value={item.text}
         onChange={handleContentChange}
         sx={{
-          border: "1px solid",
-          borderColor: "layout.carolinaBlue",
           width: "100%",
-          outline: "none",
           borderRadius: "3px",
           padding: "5px",
           font: "inherit",
           fontSize: "0.35em",
           resize: "none",
+          outline: "none",
+          border: "none",
         }}
       />
       <Box

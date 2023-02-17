@@ -18,6 +18,7 @@ const initialState: TSubtitleState = {
     },
   ],
   broken: [],
+  currentId: undefined,
   status: IAsyncStatus.FULFILLED,
   style: {
     vAlign: "bottom",
@@ -35,6 +36,10 @@ const subtitleSlice = createSlice({
   reducers: {
     setSubtitleList(state, action: PayloadAction<TSubtitleItem[]>) {
       state.list = action.payload;
+      state.currentId = action.payload[0].id;
+    },
+    setCurrentSubtitleId(state, action: PayloadAction<string>) {
+      state.currentId = action.payload;
     },
     updateSubtitleItem(state, action: PayloadAction<TSubtitleItem>) {
       state.list = state.list.map((item) =>
@@ -146,6 +151,7 @@ export const {
   setSubtitleStyle,
   addSubtitleItemAfterAnother,
   updateBrokenSubtitleList,
+  setCurrentSubtitleId,
 } = subtitleSlice.actions;
 
 export default subtitleSlice.reducer;

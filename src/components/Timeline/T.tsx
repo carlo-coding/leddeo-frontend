@@ -270,6 +270,7 @@ export default function TimeLine({
     context.fillStyle = CURSUR_TIME_CONTAINER_COLOR;
     context.fillRect(pos - 70, 21, 70, 17);
     context.fillStyle = "white";
+
     context.fillText(toTime((pos - shift) / zoomLevel, true), pos - 60, 30);
     context.lineWidth = 4;
     context.strokeStyle = CURSUR_TIME_CONTAINER_COLOR;
@@ -415,7 +416,8 @@ export default function TimeLine({
     changeShift(shift);
   }
 
-  function handleDbClick() {
+  function handleDbClick(e: any) {
+    e.stopPropagation();
     if (currentPrtcl) {
       // [TODO]: Volver a usar este if, manejando todas las variables como un estado
       /* if (
@@ -827,7 +829,8 @@ export default function TimeLine({
     }
   }
 
-  function handleClick() {
+  function handleClick(e: any) {
+    e.stopPropagation();
     scrolling =
       cursorInScrollBar() &&
       isMouseDown &&
@@ -908,10 +911,10 @@ export default function TimeLine({
     canvas.addEventListener("mousemove", handleMouseMove);
     window.removeEventListener("mouseup", mouseup);
     window.addEventListener("mouseup", mouseup);
-    canvas.removeEventListener("mousedown", handleMouseDown);
-    canvas.addEventListener("mousedown", handleMouseDown);
     canvas.removeEventListener("dblclick", handleDbClick);
     canvas.addEventListener("dblclick", handleDbClick);
+    canvas.removeEventListener("mousedown", handleMouseDown);
+    canvas.addEventListener("mousedown", handleMouseDown);
     window.removeEventListener("changeAutoScroll", changeAutoScroll);
     window.addEventListener("changeAutoScroll", changeAutoScroll);
     canvas.removeEventListener("click", handleClick);

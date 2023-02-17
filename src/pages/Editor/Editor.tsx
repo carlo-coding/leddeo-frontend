@@ -2,6 +2,7 @@ import { Box, IconButton, useMediaQuery } from "@mui/material";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
+  CSlider,
   Layout,
   Loading,
   openModal,
@@ -229,6 +230,14 @@ function Editor() {
             },
           }}
         >
+          <CSlider
+            max={(videoRef.current?.duration || 0) * 60}
+            value={(videoRef.current?.currentTime || 0) * 60}
+            onChange={(e: any, newValue: number) => {
+              if (videoRef.current === null) return;
+              videoRef.current.currentTime = newValue / 60;
+            }}
+          />
           <Timeline
             setAligns={(a) => {
               dispatch(setSubtitleList(a));
@@ -242,7 +251,7 @@ function Editor() {
               box: "#FFF",
               boxHover: "#c2c9d6",
               selectedBox: "#c2c9d6",
-              playingBox: "#222",
+              playingBox: "#52af77",
               text: "#212b33",
               selectedText: "white",
               tooltipBackground: "#474e54",
