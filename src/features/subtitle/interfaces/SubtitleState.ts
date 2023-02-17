@@ -3,6 +3,7 @@ import { IAsyncStatus } from "../../common";
 
 export interface TSubtitleState {
   list: TSubtitleItem[];
+  broken: TSubtitleItem[];
   status: IAsyncStatus;
   style: {
     vAlign: string;

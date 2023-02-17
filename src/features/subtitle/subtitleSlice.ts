@@ -17,6 +17,7 @@ const initialState: TSubtitleState = {
       text: "Escribe aquí",
     },
   ],
+  broken: [],
   status: IAsyncStatus.FULFILLED,
   style: {
     vAlign: "bottom",
@@ -39,6 +40,18 @@ const subtitleSlice = createSlice({
       state.list = state.list.map((item) =>
         item.id === action.payload.id ? action.payload : item
       );
+    },
+    updateBrokenSubtitleList(state, action: PayloadAction<TSubtitleItem>) {
+      const foundSubtitle = state.broken.find(
+        (b) => b.id === action.payload.id
+      );
+      if (foundSubtitle) {
+        state.broken = state.broken.map((item) =>
+          item.id === action.payload.id ? action.payload : item
+        );
+      } else {
+        state.broken = [...state.broken, action.payload];
+      }
     },
     updateSubtitleList(state, action: PayloadAction<TSubtitleItem[]>) {
       state.list = state.list.map((item) => {
@@ -132,6 +145,7 @@ export const {
   addEmptySubtitleItem,
   setSubtitleStyle,
   addSubtitleItemAfterAnother,
+  updateBrokenSubtitleList,
 } = subtitleSlice.actions;
 
 export default subtitleSlice.reducer;

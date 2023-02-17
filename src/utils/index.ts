@@ -7,6 +7,7 @@ export * from "./getAudioFromVideo";
 export * from "./getId";
 export * from "./isValidTimecode";
 export * from "./jsonToSrt";
+export * from "./linesFromTextNode";
 export * from "./redirectTo";
 export * from "./request";
 export * from "./srtToArray";

@@ -1,7 +1,9 @@
 import { Box } from "@mui/material";
 import { memo, useEffect, useRef } from "react";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { updateBrokenSubtitleList } from "../../features/subtitle/subtitleSlice";
 import { TSubtitleItem } from "../../models/responses";
+import { linesFromTextNode } from "../../utils";
 
 interface TSubtitlesProps {
   data: TSubtitleItem[];
@@ -12,6 +14,8 @@ interface TSubtitlesProps {
 function Subtitles({ videoRef, children }: TSubtitlesProps) {
   const subtitlesRef = useRef<HTMLParagraphElement | null>(null);
   const containerRef = useRef<HTMLParagraphElement | null>(null);
+
+  const dispatch = useAppDispatch();
 
   const style = useAppSelector((state) => state.subtitle.style);
 
@@ -29,7 +33,31 @@ function Subtitles({ videoRef, children }: TSubtitlesProps) {
     }
     subtitlesRef.current.textContent =
       typeof subtitle?.text === "string" ? subtitle.text : null;
+    const el = document.querySelector(".subtitle")?.firstChild;
+    if (el)
+      dispatch(
+        updateBrokenSubtitleList({
+          ...subtitle,
+          text: linesFromTextNode(el).join("\n"),
+        })
+      );
   };
+
+  useEffect(() => {
+    if (videoRef.current === null || subtitlesRef.current === null) return;
+    for (let subtitle of subtitles) {
+      subtitlesRef.current.textContent =
+        typeof subtitle?.text === "string" ? subtitle.text : null;
+      const el = document.querySelector(".subtitle")?.firstChild;
+      if (el)
+        dispatch(
+          updateBrokenSubtitleList({
+            ...subtitle,
+            text: linesFromTextNode(el).join("\n"),
+          })
+        );
+    }
+  }, [videoRef.current, subtitlesRef.current]);
 
   useEffect(() => {
     if (videoRef.current === null) return;
@@ -63,37 +91,39 @@ function Subtitles({ videoRef, children }: TSubtitlesProps) {
     >
       {children}
       <Box
-        component="p"
         sx={{
           position: "absolute",
-          width: "100%",
+          width: "80%",
           display: "flex",
           justifyContent:
             flexDirections[style.hAlign as keyof typeof flexDirections],
           textAlign: style.hAlign,
           bottom:
-            { bottom: "0", top: "auto", center: "50%" }[style.vAlign] || "auto",
+            { bottom: "10%", top: "auto", center: "50%" }[style.vAlign] ||
+            "auto",
           top:
-            { bottom: "auto", top: "0", center: "auto" }[style.vAlign] ||
+            { bottom: "auto", top: "10%", center: "auto" }[style.vAlign] ||
             "auto",
           left:
-            { left: "0", right: "auto", center: "50%" }[style.hAlign] || "auto",
+            { left: "10%", right: "auto", center: "50%" }[style.hAlign] ||
+            "auto",
           right:
-            { left: "auto", right: "0", center: "auto" }[style.hAlign] ||
+            { left: "auto", right: "10%", center: "auto" }[style.hAlign] ||
             "auto",
           transform: [
             { center: "translateX(-50%)" }[style.hAlign] || "",
             { center: "translateY(50%)" }[style.vAlign] || "",
           ].join(" "),
           fontSize: `${style.size}px !important`,
-          lineHeight: `${style.size}px !important`,
+          lineHeight: `calc(${style.size}px + ${style.size}px*0.1) !important`,
           color: `${style.color} !important`,
           fontFamily: `${style.font} !important`,
           margin: 0,
         }}
       >
         <Box
-          component="span"
+          component="p"
+          className="subtitle"
           ref={subtitlesRef}
           sx={{
             width: "max-content",

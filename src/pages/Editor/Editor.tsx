@@ -39,6 +39,7 @@ function Editor() {
   const status = useAppSelector((state) => state.subtitle.status);
 
   const dataSubtitles = useAppSelector((state) => state.subtitle.list);
+  const brokenSubtitles = useAppSelector((state) => state.subtitle.broken);
   const url = useMemo(
     () => (video === null ? "" : URL.createObjectURL(video)),
     []
@@ -280,7 +281,7 @@ function Editor() {
               dispatch(
                 downloadCaptionVideo({
                   file: video,
-                  srt: jsonToSrt(dataSubtitles),
+                  srt: jsonToSrt(brokenSubtitles),
                   style: style,
                 })
               );

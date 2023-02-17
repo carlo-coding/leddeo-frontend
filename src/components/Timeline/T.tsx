@@ -724,11 +724,12 @@ export default function TimeLine({
     if (remainingTime < margin && autoScroll) {
       let delta = margin - remainingTime;
 
-      if (shift - delta * zoomLevel * transitionLevel < maximumShift) {
+      shift -= delta * zoomLevel * transitionLevel;
+      /* if (shift - delta * zoomLevel * transitionLevel < maximumShift) {
         shift = maximumShift;
       } else {
         shift -= delta * zoomLevel * transitionLevel;
-      }
+      } */
     } else if (endTimeShow < time || beginingTimeShow > time) {
       let s;
 
