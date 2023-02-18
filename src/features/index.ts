@@ -4,6 +4,7 @@ export * from "./auth/interfaces/initialState";
 export * from "./checkout";
 export * from "./common";
 export * from "./common/interfaces";
+export * from "./duration";
 export * from "./faq";
 export * from "./faq/interfaces/faqState";
 export * from "./font";

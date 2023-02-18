@@ -47,16 +47,9 @@ const subtitleSlice = createSlice({
       );
     },
     updateBrokenSubtitleList(state, action: PayloadAction<TSubtitleItem>) {
-      const foundSubtitle = state.broken.find(
-        (b) => b.id === action.payload.id
+      state.broken = state.list.map((item) =>
+        item.id === action.payload.id ? action.payload : item
       );
-      if (foundSubtitle) {
-        state.broken = state.broken.map((item) =>
-          item.id === action.payload.id ? action.payload : item
-        );
-      } else {
-        state.broken = [...state.broken, action.payload];
-      }
     },
     updateSubtitleList(state, action: PayloadAction<TSubtitleItem[]>) {
       state.list = state.list.map((item) => {

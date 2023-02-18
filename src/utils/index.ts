@@ -5,6 +5,7 @@ export * from "./downLoadFile";
 export * from "./formatSeconds";
 export * from "./getAudioFromVideo";
 export * from "./getId";
+export * from "./getVideoDuration";
 export * from "./isValidTimecode";
 export * from "./jsonToSrt";
 export * from "./linesFromTextNode";

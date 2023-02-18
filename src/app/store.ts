@@ -5,6 +5,7 @@ import { sidebarSlice } from "../components/Sidebar";
 import {
   acceptanceSlice,
   authSlice,
+  durationSlice,
   faqSlice,
   historySlice,
   languageSlice,
@@ -27,6 +28,7 @@ export const store = configureStore({
     font: fontSlice,
     acceptance: acceptanceSlice,
     lang: languageSlice,
+    duration: durationSlice,
   },
   middleware: [thunk],
 });

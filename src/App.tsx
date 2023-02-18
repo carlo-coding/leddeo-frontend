@@ -27,12 +27,12 @@ const TermsConditions = lazy(
 
 function App() {
   return (
-    <Suspense fallback={<Loading />}>
-      <GoogleOAuthProvider
-        clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID as string}
-      >
-        <SnackbarProvider autoHideDuration={3000}>
-          <Provider store={store}>
+    <Provider store={store}>
+      <Suspense fallback={<Loading />}>
+        <GoogleOAuthProvider
+          clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID as string}
+        >
+          <SnackbarProvider autoHideDuration={3000}>
             <ThemeProvider theme={defaultTheme}>
               <InitLoads>
                 <RoutesWith404>
@@ -67,10 +67,10 @@ function App() {
                 </RoutesWith404>
               </InitLoads>
             </ThemeProvider>
-          </Provider>
-        </SnackbarProvider>
-      </GoogleOAuthProvider>
-    </Suspense>
+          </SnackbarProvider>
+        </GoogleOAuthProvider>
+      </Suspense>
+    </Provider>
   );
 }
 

@@ -2,11 +2,12 @@ import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { CButton, Layout, Loading } from "../../components";
-import { getVideoSubtitles } from "../../features";
+import { getTranscripDuration, getVideoSubtitles } from "../../features";
 import { PublicRoutes } from "../../models";
 import { useEffect, useState } from "react";
 import { IAsyncStatus } from "../../features/common";
 import Typography from "@mui/material/Typography";
+import { getVideoDuration } from "../../utils";
 
 interface OptionProps {
   title: string;
@@ -76,8 +77,17 @@ function Options() {
   const manual = () => navigate(`/${PublicRoutes.EDITOR}`, { replace: true });
   const srt = () => navigate(`/${PublicRoutes.SRT_UPLOAD}`, { replace: true });
 
-  const automatic = () => {
-    if (video) dispatch(getVideoSubtitles(video));
+  const automatic = async () => {
+    if (video) {
+      const duration = await getVideoDuration(video);
+      await dispatch(
+        getTranscripDuration({
+          size: video.size,
+          duration,
+        })
+      );
+      dispatch(getVideoSubtitles(video));
+    }
     setCalls((prev) => ({ ...prev, automatic: true }));
   };
 

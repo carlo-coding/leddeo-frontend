@@ -17,8 +17,8 @@ import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline";
 import FastForwardIcon from "@mui/icons-material/FastForward";
 import FastRewindIcon from "@mui/icons-material/FastRewind";
 import { setSubtitleList } from "../../features/subtitle/subtitleSlice";
-import { downLoadFile, jsonToSrt } from "../../utils";
-import { downloadCaptionVideo } from "../../features";
+import { downLoadFile, getVideoDuration, jsonToSrt } from "../../utils";
+import { downloadCaptionVideo, getDownloadDuration } from "../../features";
 import { IAsyncStatus } from "../../features/common";
 import { EditionTabs } from "../Editor/subcomps";
 import TranslateIcon from "@mui/icons-material/Translate";
@@ -285,8 +285,15 @@ function Editor() {
         >
           <Box
             component="button"
-            onClick={() => {
+            onClick={async () => {
               if (!video) return;
+              const duration = await getVideoDuration(video);
+              await dispatch(
+                getDownloadDuration({
+                  size: video.size,
+                  duration,
+                })
+              );
               dispatch(
                 downloadCaptionVideo({
                   file: video,

@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { memo, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   setCurrentSubtitleId,
@@ -49,7 +49,8 @@ function Subtitles({ videoRef, children }: TSubtitlesProps) {
 
   useEffect(() => {
     if (videoRef.current === null || subtitlesRef.current === null) return;
-    const lastSubtitle = subtitles[subtitles.length - 1];
+    const originalText =
+      subtitlesRef.current.textContent || subtitles[0].text || "";
     for (let subtitle of subtitles) {
       subtitlesRef.current.textContent =
         typeof subtitle?.text === "string" ? subtitle.text : null;
@@ -62,9 +63,8 @@ function Subtitles({ videoRef, children }: TSubtitlesProps) {
           })
         );
     }
-    subtitlesRef.current.textContent =
-      typeof lastSubtitle?.text === "string" ? lastSubtitle.text : null;
-  }, [videoRef.current, subtitlesRef.current]);
+    subtitlesRef.current.textContent = originalText;
+  }, [videoRef.current, subtitlesRef.current, subtitles]);
 
   useEffect(() => {
     if (videoRef.current === null) return;

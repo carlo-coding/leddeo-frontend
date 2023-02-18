@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import languages from "../../../data/availableLanguages.json";
-import { translateSubtitles } from "../../../features";
+import { getTranslateDuration, translateSubtitles } from "../../../features";
 import { CButton } from "../../CButton";
 
 function SelectLanguage() {
@@ -11,6 +11,14 @@ function SelectLanguage() {
   const subtitles = useAppSelector((state) => state.subtitle.list);
 
   const handleTranslate = () => {
+    dispatch(
+      getTranslateDuration({
+        words: subtitles
+          .map(({ text }) => text)
+          .join("")
+          .split(" ").length,
+      })
+    );
     dispatch(
       translateSubtitles({
         subtitles: subtitles,
