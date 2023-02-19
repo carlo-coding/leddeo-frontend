@@ -155,7 +155,7 @@ function Editor() {
             userSelect: "none",
           },
           padding: "30px",
-          gap: "15px",
+          columnGap: "15px",
           backgroundColor: "layout.white",
           fontSize: "max(38px, 3vmax)",
         }}
