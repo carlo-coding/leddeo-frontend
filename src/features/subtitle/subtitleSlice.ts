@@ -47,9 +47,16 @@ const subtitleSlice = createSlice({
       );
     },
     updateBrokenSubtitleList(state, action: PayloadAction<TSubtitleItem>) {
-      state.broken = state.list.map((item) =>
-        item.id === action.payload.id ? action.payload : item
+      const foundSubtitle = state.broken.find(
+        (b) => b.id === action.payload.id
       );
+      if (foundSubtitle) {
+        state.broken = state.broken.map((item) =>
+          item.id === action.payload.id ? action.payload : item
+        );
+      } else {
+        state.broken = [...state.broken, action.payload];
+      }
     },
     updateSubtitleList(state, action: PayloadAction<TSubtitleItem[]>) {
       state.list = state.list.map((item) => {
@@ -57,11 +64,13 @@ const subtitleSlice = createSlice({
         if (foundSub) return foundSub;
         return item;
       });
+      state.broken = [];
     },
     removeSubtitleItem(state, action: PayloadAction<string>) {
       const newList = state.list.filter((item) => item.id !== action.payload);
       if (newList.length === 0) return;
       state.list = newList;
+      state.broken = [];
     },
     addSubtitleItemAfterAnother(state, action: PayloadAction<string>) {
       const item = state.list.find((i) => i.id === action.payload);

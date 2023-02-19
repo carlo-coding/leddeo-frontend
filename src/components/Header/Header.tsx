@@ -11,7 +11,6 @@ import { toggleSidebar } from "../Sidebar/sidebarSlice/sidebarSlice";
 import { useCustomPush } from "../../hooks";
 
 function Header() {
-  const navigate = useNavigate();
   const push = useCustomPush();
   const dispatch = useAppDispatch();
   const isAuthenticaed = useAppSelector((state) => state.auth.isAuthenticated);

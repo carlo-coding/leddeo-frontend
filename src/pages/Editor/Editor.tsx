@@ -22,10 +22,18 @@ import { downloadCaptionVideo, getDownloadDuration } from "../../features";
 import { IAsyncStatus } from "../../features/common";
 import { EditionTabs } from "../Editor/subcomps";
 import TranslateIcon from "@mui/icons-material/Translate";
-
+import Forward5Icon from "@mui/icons-material/Forward5";
+import Replay5Icon from "@mui/icons-material/Replay5";
 export const firstRow = "76vh";
 
 function Editor() {
+  const [videoSpeed, setVideoSpeed] = useState(1);
+  const [currentTime, setCurrentTime] = useState(0);
+
+  const handleChangeVideoSpeed = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setVideoSpeed(parseFloat(e.target.value));
+  };
+
   const isMobile = useMediaQuery("(max-width:900px)");
   const dispatch = useAppDispatch();
 
@@ -39,8 +47,20 @@ function Editor() {
   const style = useAppSelector((state) => state.subtitle.style);
   const status = useAppSelector((state) => state.subtitle.status);
 
+  const handleGoForward5Sec = () => {
+    if (!videoRef.current) return;
+    videoRef.current.currentTime += 5;
+    setCurrentTime(videoRef.current.currentTime);
+  };
+  const handleGoBackward5Sec = () => {
+    if (!videoRef.current) return;
+    videoRef.current.currentTime -= 5;
+    setCurrentTime(videoRef.current.currentTime);
+  };
+
   const dataSubtitles = useAppSelector((state) => state.subtitle.list);
   const brokenSubtitles = useAppSelector((state) => state.subtitle.broken);
+
   const url = useMemo(
     () => (video === null ? "" : URL.createObjectURL(video)),
     []
@@ -64,6 +84,11 @@ function Editor() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!videoRef.current) return;
+    videoRef.current.playbackRate = videoSpeed;
+  }, [videoSpeed]);
+
   const togglePlay = () => {
     setIsVideoPaused(!Boolean(videoRef.current?.paused));
     if (videoRef.current?.paused) {
@@ -79,11 +104,17 @@ function Editor() {
   const handleForwardClick = () => {
     if (videoRef.current === null) return;
     videoRef.current.currentTime = videoRef.current.duration;
+    setCurrentTime(videoRef.current.currentTime);
   };
 
   const handleRewindClick = () => {
     if (videoRef.current === null) return;
     videoRef.current.currentTime = 0;
+    setCurrentTime(videoRef.current.currentTime);
+  };
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current) setCurrentTime(videoRef.current.currentTime);
   };
 
   const handleSubtitlesTranslate = () => {
@@ -153,6 +184,7 @@ function Editor() {
               <Box
                 component="video"
                 src={url}
+                onTimeUpdate={handleTimeUpdate}
                 sx={{
                   width: "100%",
                   height: "100%",
@@ -177,24 +209,40 @@ function Editor() {
             }}
           >
             <IconButton onClick={handleRewindClick}>
-              <FastRewindIcon sx={{ fontSize: "1.5em", color: "#161616" }} />
+              <FastRewindIcon sx={{ fontSize: "1.2em", color: "#161616" }} />
+            </IconButton>
+
+            <IconButton onClick={handleGoBackward5Sec}>
+              <Replay5Icon sx={{ fontSize: "1.2em", color: "#161616" }} />
             </IconButton>
 
             <IconButton onClick={togglePlay}>
               {isVideoPaused ? (
                 <PlayCircleOutlineIcon
-                  sx={{ fontSize: "1.5em", color: "#161616" }}
+                  sx={{ fontSize: "1.2em", color: "#161616" }}
                 />
               ) : (
                 <PauseCircleOutlineIcon
-                  sx={{ fontSize: "1.5em", color: "#161616" }}
+                  sx={{ fontSize: "1.2em", color: "#161616" }}
                 />
               )}
             </IconButton>
 
-            <IconButton onClick={handleForwardClick}>
-              <FastForwardIcon sx={{ fontSize: "1.5em", color: "#161616" }} />
+            <IconButton onClick={handleGoForward5Sec}>
+              <Forward5Icon sx={{ fontSize: "1.2em", color: "#161616" }} />
             </IconButton>
+
+            <IconButton onClick={handleForwardClick}>
+              <FastForwardIcon sx={{ fontSize: "1.2em", color: "#161616" }} />
+            </IconButton>
+
+            <select value={videoSpeed} onChange={handleChangeVideoSpeed}>
+              {[0.25, 0.5, 1.0, 1.25, 1.5, 2.0].map((o) => (
+                <option key={o} value={o}>
+                  x {o.toFixed(2)}
+                </option>
+              ))}
+            </select>
 
             <Box
               component="button"
@@ -232,10 +280,11 @@ function Editor() {
         >
           <CSlider
             max={(videoRef.current?.duration || 0) * 60}
-            value={(videoRef.current?.currentTime || 0) * 60}
+            value={(currentTime || 0) * 60}
             onChange={(e: any, newValue: number) => {
               if (videoRef.current === null) return;
               videoRef.current.currentTime = newValue / 60;
+              setCurrentTime(videoRef.current.currentTime);
             }}
           />
           <Timeline

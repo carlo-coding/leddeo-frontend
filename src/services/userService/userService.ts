@@ -1,6 +1,5 @@
 import { IUpdateUserPayload, User } from "../../models";
 import { getCookie, request, setCookie, deleteCookie } from "../../utils";
-import { serviceRefreshToken } from "../authService";
 import { UserServiceEndpoints } from "./endpoints";
 
 export async function serviceGetUserInfo(): Promise<[any, any]> {
@@ -12,19 +11,8 @@ export async function serviceGetUserInfo(): Promise<[any, any]> {
     isProtected: true,
   });
   if (error) {
-    const refresh = getCookie("refresh");
-    if (!refresh) return [user, error];
-    const [tokens, fail] = await serviceRefreshToken({ refresh });
-    if (tokens) {
-      setCookie("refresh", tokens.refresh);
-      setCookie("access", tokens.access);
-      return await serviceGetUserInfo();
-    }
-    if (fail) {
-      deleteCookie("refresh");
-      deleteCookie("access");
-      return [user, error];
-    }
+    deleteCookie("refresh");
+    deleteCookie("access");
   }
   return [user, error];
 }

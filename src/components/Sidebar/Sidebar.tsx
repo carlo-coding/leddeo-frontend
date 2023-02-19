@@ -1,12 +1,14 @@
-import { useMediaQuery, IconButton } from "@mui/material";
+import { useMediaQuery, IconButton, Tooltip } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { deleteCookie } from "../../utils";
 import { PublicRoutes } from "../../models";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { motion } from "framer-motion";
 import { useCustomPush } from "../../hooks";
+import Backdrop from "@mui/material/Backdrop";
+import { closeSidebar } from "./sidebarSlice/sidebarSlice";
 
 function Sidebar() {
   const variants = {
@@ -15,11 +17,15 @@ function Sidebar() {
   };
 
   const push = useCustomPush();
-
+  const dispatch = useAppDispatch();
   const open = useAppSelector((state) => state.sidebar.open);
   const isAuthenticaed = useAppSelector((state) => state.auth.isAuthenticated);
 
   const isMobile = useMediaQuery("(max-width:900px)");
+
+  const handleClose = () => {
+    dispatch(closeSidebar());
+  };
 
   const handleLogout = () => {
     deleteCookie("access");
@@ -27,7 +33,7 @@ function Sidebar() {
     window.location.assign("/");
   };
 
-  return (
+  const sidebarComp = (
     <motion.nav
       animate={open || !isMobile ? "open" : "closed"}
       variants={variants}
@@ -45,16 +51,18 @@ function Sidebar() {
         bottom: 0,
         top: 0,
         zIndex: 500,
-        borderRight: "1px solid rgba(0,0,0,0.3)",
+        boxShadow: "2px 2px 8px -2px rgba(0,0,0,0.5)",
       }}
     >
-      <IconButton
-        onClick={() => {
-          push(`/${PublicRoutes.UPLOAD}`);
-        }}
-      >
-        <UploadIcon sx={{ color: "layout.black" }} />
-      </IconButton>
+      <Tooltip title="Subir video">
+        <IconButton
+          onClick={() => {
+            push(`/${PublicRoutes.UPLOAD}`);
+          }}
+        >
+          <UploadIcon sx={{ color: "layout.black" }} />
+        </IconButton>
+      </Tooltip>
 
       {/* <IconButton
         onClick={() => {
@@ -68,27 +76,45 @@ function Sidebar() {
         <MenuIcon sx={{ color: "layout.black" }} />
       </IconButton> */}
 
-      <IconButton
-        onClick={() => {
-          push(`/${PublicRoutes.FAQS}`);
-        }}
-      >
-        <QuestionMarkIcon sx={{ color: "layout.black" }} />
-      </IconButton>
-
-      {isAuthenticaed && (
+      <Tooltip title="Preguntas frecuentes">
         <IconButton
-          onClick={handleLogout}
-          sx={{
-            marginTop: "auto",
-            marginBottom: "1em",
-            color: "layout.black",
+          onClick={() => {
+            push(`/${PublicRoutes.FAQS}`);
           }}
         >
-          <LogoutIcon />
+          <QuestionMarkIcon sx={{ color: "layout.black" }} />
         </IconButton>
+      </Tooltip>
+
+      {isAuthenticaed && (
+        <Tooltip title="Cerrar sesión">
+          <IconButton
+            onClick={handleLogout}
+            sx={{
+              marginTop: "auto",
+              marginBottom: "1em",
+              color: "layout.black",
+            }}
+          >
+            <LogoutIcon />
+          </IconButton>
+        </Tooltip>
       )}
     </motion.nav>
   );
+
+  if (isMobile)
+    return (
+      <Backdrop
+        open={open}
+        onClick={handleClose}
+        sx={{
+          zIndex: 1050,
+        }}
+      >
+        {sidebarComp}
+      </Backdrop>
+    );
+  return sidebarComp;
 }
 export default Sidebar;

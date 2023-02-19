@@ -9,10 +9,9 @@ import {
 import {
   serviceGetToken,
   serviceGoogleAuth,
-  serviceRefreshToken,
   serviceRegister,
 } from "../../services";
-import { getCookie, redirectTo, setCookie } from "../../utils";
+import { redirectTo, setCookie } from "../../utils";
 
 export const signup = createAsyncThunk(
   "auth/signup",
@@ -41,7 +40,7 @@ export const googleAuth = createAsyncThunk(
   }
 );
 
-export const refreshToken = createAsyncThunk("auth/refreshToken", async () => {
+/* export const refreshToken = createAsyncThunk("auth/refreshToken", async () => {
   const [response, error] = await serviceRefreshToken({
     refresh: getCookie("refresh"),
   });
@@ -52,7 +51,7 @@ export const refreshToken = createAsyncThunk("auth/refreshToken", async () => {
     setCookie("refresh", response.refresh);
     setCookie("access", response.access);
   }
-});
+}); */
 
 export const login = createAsyncThunk(
   "auth/login",

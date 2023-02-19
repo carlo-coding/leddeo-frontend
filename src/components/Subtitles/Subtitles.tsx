@@ -55,13 +55,14 @@ function Subtitles({ videoRef, children }: TSubtitlesProps) {
       subtitlesRef.current.textContent =
         typeof subtitle?.text === "string" ? subtitle.text : null;
       const el = document.querySelector(".subtitle")?.firstChild;
-      if (el)
+      if (el) {
         dispatch(
           updateBrokenSubtitleList({
             ...subtitle,
             text: linesFromTextNode(el).join("\n"),
           })
         );
+      }
     }
     subtitlesRef.current.textContent = originalText;
   }, [videoRef.current, subtitlesRef.current, subtitles]);

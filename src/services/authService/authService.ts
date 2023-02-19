@@ -1,7 +1,6 @@
 import {
   IGetTokenPayload,
   IGoogleRegister,
-  IRefreshTokenPayload,
   ISignUpPayload,
 } from "../../models";
 import { request } from "../../utils";
@@ -37,7 +36,7 @@ export async function serviceGetToken(payload: IGetTokenPayload) {
   return response;
 }
 
-export async function serviceRefreshToken(payload: IRefreshTokenPayload) {
+/* export async function serviceRefreshToken(payload: IRefreshTokenPayload) {
   const resp = await request<{
     access: string;
     refresh: string;
@@ -50,7 +49,7 @@ export async function serviceRefreshToken(payload: IRefreshTokenPayload) {
     usesPrefix: false,
   });
   return resp;
-}
+} */
 
 export async function serviceGoogleAuth(payload: IGoogleRegister) {
   const resp = await request<{
