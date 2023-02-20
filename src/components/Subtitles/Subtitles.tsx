@@ -32,6 +32,7 @@ function Subtitles({ videoRef, children }: TSubtitlesProps) {
     });
     if (!subtitle) {
       subtitlesRef.current.textContent = "";
+      dispatch(setCurrentSubtitleId(undefined));
       return;
     }
     dispatch(setCurrentSubtitleId(subtitle.id));

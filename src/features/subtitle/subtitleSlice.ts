@@ -23,7 +23,7 @@ const initialState: TSubtitleState = {
   style: {
     vAlign: "bottom",
     hAlign: "center",
-    font: "arial",
+    font: "roboto",
     color: "rgb(255,255,255)",
     size: 20,
     bgcolor: "rgb(102,102,102)",
@@ -38,7 +38,7 @@ const subtitleSlice = createSlice({
       state.list = action.payload;
       state.currentId = action.payload[0].id;
     },
-    setCurrentSubtitleId(state, action: PayloadAction<string>) {
+    setCurrentSubtitleId(state, action: PayloadAction<string | undefined>) {
       state.currentId = action.payload;
     },
     updateSubtitleItem(state, action: PayloadAction<TSubtitleItem>) {

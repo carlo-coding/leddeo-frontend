@@ -17,6 +17,7 @@ function SubtitleEditor() {
         display: "flex",
         flexDirection: "column",
         overflowY: "auto",
+        overflowX: "visible",
         height: "100%",
         maxHeight: "100%",
         flexGrow: 1,
@@ -25,6 +26,8 @@ function SubtitleEditor() {
         border: "1px solid",
         borderColor: "layout.darkGray",
         alignItems: "center",
+        position: "relative",
+        backgroundColor: "#393939",
       }}
     >
       {data.map((item, index) => (

@@ -70,6 +70,8 @@ function SubtitleTextItem({ id, index }: TSubtitleTextItemProps) {
       dispatch(updateSubtitleItem({ ...item, begin: newValue }));
   };
 
+  const isPlaying = currentSubtitleId === item.id;
+
   return (
     <Box
       sx={{
@@ -77,7 +79,16 @@ function SubtitleTextItem({ id, index }: TSubtitleTextItemProps) {
         position: "relative",
         width: "100%",
         outline: "3px solid transparent",
-        outlineColor: currentSubtitleId === item.id ? "#52af77" : "transparent",
+        outlineColor: isPlaying ? "#52af77" : "transparent",
+        ...(isPlaying && {
+          "&::before": {
+            content: "''",
+            width: "20px",
+            height: "100%",
+            background: "#52af77",
+            clipPath: "polygon(0 0, 100% 50%, 0 100%, 0% 100%, 0 50%, 0% 0%)",
+          },
+        }),
       }}
     >
       <Box
