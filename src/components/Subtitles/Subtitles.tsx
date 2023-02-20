@@ -24,9 +24,9 @@ function Subtitles({ videoRef, children }: TSubtitlesProps) {
 
   const subtitles = useAppSelector((state) => state.subtitle.list);
 
-  const handleTimeUpdate = () => {
-    if (videoRef.current === null || subtitlesRef.current === null) return;
-    const currt = videoRef.current.currentTime;
+  const handleTimeUpdate = (e: any) => {
+    if (subtitlesRef.current === null) return;
+    const currt = e.target.currentTime;
     const subtitle = subtitles.find((subt) => {
       return currt >= subt.begin && currt < subt.end;
     });

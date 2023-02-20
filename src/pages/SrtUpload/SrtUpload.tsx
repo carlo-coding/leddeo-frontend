@@ -38,6 +38,7 @@ function SrtUpload() {
               xs: "80vw",
             },
             padding: "1em 1.5em",
+            position: "relative",
             backgroundColor: "layout.mediumGray",
             display: "flex",
             flexDirection: "column",
@@ -70,6 +71,7 @@ function SrtUpload() {
           onFilesAdded={handleFileUpload}
           title={srtuploadPage.title}
           subbutton={srtuploadPage.dropText}
+          backwards={PublicRoutes.OPTIONS}
         >
           {srtuploadPage.uploadButton}
         </FileUpload>

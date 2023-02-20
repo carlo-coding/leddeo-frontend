@@ -1,5 +1,5 @@
 import { Box, IconButton } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import {
   addSubtitleItemAfterAnother,
@@ -83,10 +83,9 @@ function SubtitleTextItem({ id, index }: TSubtitleTextItemProps) {
         ...(isPlaying && {
           "&::before": {
             content: "''",
-            width: "20px",
+            width: "5px",
             height: "100%",
             background: "#52af77",
-            clipPath: "polygon(0 0, 100% 50%, 0 100%, 0% 100%, 0 50%, 0% 0%)",
           },
         }),
       }}
@@ -146,21 +145,17 @@ function SubtitleTextItem({ id, index }: TSubtitleTextItemProps) {
           backgroundColor: "layout.darkGray",
         }}
       >
-        {index !== 0 ? (
-          <IconButton
-            sx={{
-              color: "layout.white",
-              fontSize: "0.35em",
-              margin: "0",
-              padding: "0",
-            }}
-            onClick={handleDeleteItem}
-          >
-            <HighlightOffIcon />
-          </IconButton>
-        ) : (
-          <Box sx={{ height: "0.7em" }}></Box>
-        )}
+        <IconButton
+          sx={{
+            color: "layout.white",
+            fontSize: "0.35em",
+            margin: "0",
+            padding: "0",
+          }}
+          onClick={handleDeleteItem}
+        >
+          <HighlightOffIcon />
+        </IconButton>
         <IconButton
           sx={{
             color: "layout.white",

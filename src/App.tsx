@@ -37,6 +37,10 @@ function App() {
               <InitLoads>
                 <RoutesWith404>
                   <Route
+                    path={PublicRoutes.SRT_UPLOAD}
+                    element={<SrtUpload />}
+                  />
+                  <Route
                     path="/"
                     element={<Navigate to={PublicRoutes.LANDING} />}
                   />

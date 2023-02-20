@@ -1,11 +1,14 @@
 import React, { useRef } from "react";
-
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import Box from "@mui/material/Box";
+import { useNavigate } from "react-router-dom";
 interface FileUploadProps {
   onFilesAdded: (files: (File | null)[]) => void;
   title?: string;
   subtitle?: string;
   subbutton?: string;
   children?: React.ReactNode;
+  backwards?: string;
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({
@@ -14,9 +17,10 @@ const FileUpload: React.FC<FileUploadProps> = ({
   subbutton,
   subtitle,
   title,
+  backwards,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  const navigate = useNavigate();
   const openFileDialog = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -47,6 +51,26 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
   return (
     <div className="upload-area" onDrop={onDrop} onDragOver={onDragOver}>
+      {backwards && (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "3px",
+            position: "absolute",
+            top: "10px",
+            left: "10px",
+            fontSize: "12px",
+            color: "#0F62FE",
+            cursor: "pointer",
+          }}
+          onClick={() => navigate(`/${backwards}`)}
+        >
+          <ArrowBackIosIcon sx={{ fontSize: "15px" }} />
+          <span>Regresar</span>
+        </Box>
+      )}
+
       {title && <p className="upload-title">{title}</p>}
       {subtitle && <p className="upload-subtitle">{subtitle}</p>}
 
