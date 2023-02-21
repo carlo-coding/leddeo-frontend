@@ -7,6 +7,8 @@ import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { ILoginPayload } from "./interfaces/Login";
 import * as Yup from "yup";
 import { Formik } from "formik";
+import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 
 function Login() {
   const dispatch = useAppDispatch();
@@ -14,6 +16,24 @@ function Login() {
   const loginPage = useAppSelector(
     (state) => state.lang.pageLanguage.pages.login
   );
+
+  const [searchParams] = useSearchParams();
+
+  const created = searchParams.get("created");
+
+  useEffect(() => {
+    if (created === "true") {
+      enqueueSnackbar(
+        "Felicidades por crear una nueva cuenta, \
+        ahora puedes iniciar sesión y por favor \
+        verifica tu correo electrónico",
+        {
+          variant: "success",
+        }
+      );
+      searchParams.delete("created");
+    }
+  }, [created]);
 
   const handleGoogleError = () =>
     enqueueSnackbar("Hubo un error obteniendo permisos de google", {

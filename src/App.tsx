@@ -24,6 +24,7 @@ const Landing = lazy(async () => await import("./pages/Landing/Landing"));
 const TermsConditions = lazy(
   async () => await import("./pages/TermsConditions/TermsConditions")
 );
+const Verified = lazy(async () => await import("./pages/Verified/Verified"));
 
 function App() {
   return (
@@ -37,10 +38,6 @@ function App() {
               <InitLoads>
                 <RoutesWith404>
                   <Route
-                    path={PublicRoutes.SRT_UPLOAD}
-                    element={<SrtUpload />}
-                  />
-                  <Route
                     path="/"
                     element={<Navigate to={PublicRoutes.LANDING} />}
                   />
@@ -48,6 +45,7 @@ function App() {
                     path={PublicRoutes.TERMS}
                     element={<TermsConditions />}
                   />
+                  <Route path={PublicRoutes.VERIFIED} element={<Verified />} />
                   <Route path={PublicRoutes.LANDING} element={<Landing />} />
                   <Route path={PublicRoutes.UPLOAD} element={<Upload />} />
                   <Route path={PublicRoutes.PLANS} element={<Plans />} />

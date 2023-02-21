@@ -20,7 +20,7 @@ export const signup = createAsyncThunk(
     if (error !== null) {
       return enqueueSnackbar(error.message, { variant: "error" });
     }
-    redirectTo("/login");
+    redirectTo("/login?created=true");
   }
 );
 

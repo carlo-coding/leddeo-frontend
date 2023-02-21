@@ -9,6 +9,7 @@ export enum PublicRoutes {
   FAQS = "faqs",
   LANDING = "home",
   TERMS = "terms",
+  VERIFIED = "verified",
 }
 
 export enum PrivateRoutes {
