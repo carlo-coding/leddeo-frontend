@@ -9,47 +9,97 @@ import {
   Layout,
   openModal,
   setModalContent,
+  UserConfirm,
 } from "../../components";
-import { getHistory } from "../../features";
-import { portalSession } from "../../features/checkout/checkoutActions";
-import { HistoryActions, PrivateRoutes } from "../../models";
-import { useEffect } from "react";
+import { INTERVALS } from "../Plans/subcomps/CustomPanel/CustomPanel";
+import { PrivateRoutes, PublicRoutes } from "../../models";
+import {
+  apiPrefix,
+  apiUrl,
+  formatDate,
+  getCookie,
+  isTrialActive,
+  isValidPlan,
+  redirectTo,
+} from "../../utils";
 
 function Profile() {
   const user = useAppSelector((state) => state.user.data);
-  const history = useAppSelector((state) => state.history.data);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const activePlan = user?.plans?.find((p) => isValidPlan(p));
   const profilePage = useAppSelector(
     (state) => state.lang.pageLanguage.pages.profile
   );
 
-  const numberOfSubtitlesTranslated = history.reduce((acc, curr) => {
-    if (curr.action === HistoryActions.SUBTITLE_TRANSLATE) {
-      return acc + 1;
-    }
-    return acc;
-  }, 0);
-
-  const numberOfDownloadedVideos = history.reduce((acc, curr) => {
-    if (curr.action === HistoryActions.VIDEO_CAPTION) {
-      return acc + 1;
-    }
-    return acc;
-  }, 0);
-
-  useEffect(() => {
-    dispatch(getHistory());
-  }, []);
+  const SUBSCRIPTION_STATE = {
+    incomplete: "Completada",
+    incomplete_expired: "Expirado",
+    trialing: "En prueba gratuita",
+    active: "Activa",
+    past_due: "Con adeudos",
+    canceled: "Cancelada",
+    unpaid: "Sin pagar",
+  };
 
   const handleOpenEdit = () => {
     dispatch(setModalContent(<EditUserInfo />));
     dispatch(openModal());
   };
 
-  const handleOpenPortal = () => {
-    dispatch(portalSession({ customer_id: user?.info.customer_id }));
+  const handleCancelAccount = async () => {
+    const callback = async () => {
+      const resp = await fetch(`${apiUrl}${apiPrefix}/plans`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${getCookie("access")}`,
+        },
+        body: JSON.stringify({
+          subscription_id: activePlan?.stripe_subscription_id,
+        }),
+      });
+      const data = await resp.json();
+      if (data) {
+        redirectTo(`/${PrivateRoutes.PRIVATE}`);
+      }
+    };
+    dispatch(
+      setModalContent(
+        <UserConfirm cb={callback}>
+          Al aceptar tu cuenta se cancelará al terminar el periodo actual
+        </UserConfirm>
+      )
+    );
+    dispatch(openModal());
+  };
+
+  const hadleActivateAccount = async () => {
+    const callback = async () => {
+      const resp = await fetch(`${apiUrl}${apiPrefix}/plans/`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${getCookie("access")}`,
+        },
+        body: JSON.stringify({
+          subscription_id: activePlan?.stripe_subscription_id,
+        }),
+      });
+      const data = await resp.json();
+      if (data) {
+        redirectTo(`/${PrivateRoutes.PRIVATE}`);
+      }
+    };
+    dispatch(
+      setModalContent(
+        <UserConfirm cb={callback}>
+          Se te cobrará al terminar el periodo actual
+        </UserConfirm>
+      )
+    );
+    dispatch(openModal());
   };
 
   return (
@@ -118,6 +168,7 @@ function Profile() {
               display: "grid",
               padding: "0.9em",
               gap: "0.7em",
+              gridColumn: "1 / 3",
             }}
           >
             <Typography
@@ -127,23 +178,22 @@ function Profile() {
             >
               {user?.username}
             </Typography>
-            <h2>{profilePage.platformStatus}</h2>
-            {/* <Typography
+            <Typography
+              sx={{
+                fontSize: "1.4em",
+              }}
+            >
+              {activePlan && "Tiempo restante del plan"}
+            </Typography>
+            <Typography
               sx={{
                 fontSize: "2em",
                 fontStyle: "italic",
               }}
             >
-              {user?.plans?.[0]?.current_period_end && (
-                <CountdownTimer date={user?.plans[0].current_period_end} />
+              {activePlan?.current_period_end && (
+                <CountdownTimer date={activePlan.current_period_end} />
               )}
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: "1.9em",
-              }}
-            >
-              Tiempo restante del plan
             </Typography>
             <Box
               sx={{
@@ -152,20 +202,77 @@ function Profile() {
                 width: "100%",
               }}
             ></Box>
+            {activePlan?.name && (
+              <>
+                <Typography
+                  sx={{
+                    fontSize: "1.7em",
+                  }}
+                >
+                  Plan actual:
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "1.2em",
+                  }}
+                >
+                  {activePlan?.name}
+                </Typography>
+              </>
+            )}
+
             <Typography
               sx={{
-                fontSize: "1.7em",
+                fontSize: "1.2em",
               }}
             >
-              Plan actual:
+              {activePlan && !isTrialActive(activePlan.trial_end)
+                ? `Usted está pagando ${activePlan?.currency?.toUpperCase()}$
+              ${activePlan.unit_amount / 100} ${INTERVALS[activePlan.interval]}`
+                : ""}
+              {activePlan && isTrialActive(activePlan.trial_end)
+                ? `Se le cobrarán ${activePlan?.currency?.toUpperCase()}$
+              ${activePlan.unit_amount / 100} ${
+                    INTERVALS[activePlan.interval]
+                  } al terminar
+              el periodo gratuito`
+                : ""}
             </Typography>
+
             <Typography
               sx={{
-                fontSize: "1.4em",
+                fontSize: "1.2em",
               }}
             >
-              {user?.plans?.[0]?.name}
+              {user && user.info.balance
+                ? `Su balance actual es de ${user.info.balance / 100}`
+                : ""}
             </Typography>
+
+            {activePlan && (
+              <Typography
+                sx={{
+                  fontSize: "1.2em",
+                }}
+              >
+                {`Estado actual: ${
+                  SUBSCRIPTION_STATE[
+                    activePlan.status as keyof typeof SUBSCRIPTION_STATE
+                  ]
+                }`}
+              </Typography>
+            )}
+            {activePlan?.cancel_at && (
+              <Typography
+                sx={{
+                  fontSize: "1.2em",
+                }}
+              >
+                {`Este plan se cancelará en: ${formatDate(
+                  activePlan.cancel_at
+                )}`}
+              </Typography>
+            )}
 
             <Box
               sx={{
@@ -175,57 +282,70 @@ function Profile() {
                 flexWrap: "wrap",
               }}
             >
-              <CButton c="layout.navyBlue" onClick={handleOpenPortal}>
-                Mejorar plan
-              </CButton>
-              <CButton c="layout.navyBlue" onClick={handleOpenPortal}>
-                Renovar plan
-              </CButton>
-              <CButton
-                c="layout.darkRed"
-                sx={{
-                  marginLeft: {
-                    md: "auto",
-                    xs: 0,
-                  },
-                }}
-                onClick={handleOpenPortal}
-              >
-                Cancelar cuenta
-              </CButton>
-            </Box> */}
+              {user?.plans?.length ? (
+                <CButton
+                  c="layout.navyBlue"
+                  onClick={() => {
+                    navigate(
+                      `/${PrivateRoutes.PRIVATE}/${PrivateRoutes.HISTORY}`
+                    );
+                  }}
+                >
+                  Ver historial de facturación
+                </CButton>
+              ) : (
+                ""
+              )}
+              {(activePlan?.status === "active" ||
+                activePlan?.status === "trialing") &&
+                !activePlan.cancel_at && (
+                  <CButton
+                    c="layout.darkRed"
+                    sx={{
+                      marginLeft: {
+                        md: "auto",
+                        xs: 0,
+                      },
+                    }}
+                    onClick={handleCancelAccount}
+                  >
+                    Cancelar cuenta
+                  </CButton>
+                )}
+              {(activePlan?.status === "active" ||
+                activePlan?.status === "trialing") &&
+                activePlan.cancel_at && (
+                  <CButton
+                    c="layout.navyBlue"
+                    sx={{
+                      marginLeft: {
+                        md: "auto",
+                        xs: 0,
+                      },
+                    }}
+                    onClick={hadleActivateAccount}
+                  >
+                    Reactivar cuenta
+                  </CButton>
+                )}
+              {!activePlan && (
+                <CButton
+                  c="layout.navyBlue"
+                  sx={{
+                    marginLeft: {
+                      md: "auto",
+                      xs: 0,
+                    },
+                  }}
+                  onClick={() => navigate(`/${PublicRoutes.PLANS}`)}
+                >
+                  Ver planes
+                </CButton>
+              )}
+            </Box>
           </Box>
           {/* End Profile box */}
-          <Box
-            sx={{
-              backgroundColor: "layout.white",
-              width: "100%",
-              height: "100%",
-              padding: "0.9em",
-            }}
-          >
-            <Typography sx={{ fontSize: "1.4em" }}>
-              {profilePage.historySubtitlesTranslated}
-            </Typography>
-            <Typography sx={{ fontSize: "2.1em" }}>
-              {numberOfSubtitlesTranslated}
-            </Typography>
-            <Typography sx={{ fontSize: "1.4em" }}>
-              {profilePage.historyVideosDownloaded}
-            </Typography>
-            <Typography sx={{ fontSize: "2.1em" }}>
-              {numberOfDownloadedVideos}
-            </Typography>
-            <CButton
-              c="layout.navyBlue"
-              sx={{ marginRight: "auto" }}
-              onClick={() => {
-                navigate(`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.HISTORY}`);
-              }}
-            >
-              {profilePage.historyButton}
-            </CButton>
-          </Box>
+
           <div></div>
           <Box
             sx={{

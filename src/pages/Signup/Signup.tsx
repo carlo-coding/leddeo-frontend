@@ -67,12 +67,12 @@ function Signup() {
       .test(
         "Debe tener al menos un carácter especial",
         "Debe tener al menos un carácter especial",
-        (password) => /[!@#$%^&*(),.?":{}|<>]/.test(password ?? "")
+        (password) => /[!@#$%^&*(),.?":{}|<>_-]/.test(password ?? "")
       ),
   });
 
   const handleFormSubmit = async (values: ISignUpPayload) => {
-    dispatch(signup(values));
+    dispatch(signup({ ...values, acceptance_id: acceptance_id }));
   };
 
   return (

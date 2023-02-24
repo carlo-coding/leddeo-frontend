@@ -1,35 +1,23 @@
 import { Box, Typography } from "@mui/material";
 import { Layout } from "../../components";
-import { useEffect } from "react";
-import { getHistory } from "../../features";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { HistoryActions } from "../../models";
+import { useEffect, useState } from "react";
+import { apiPrefix, apiUrl, formatDate, getCookie } from "../../utils";
+import { IHistory } from "../../models";
 
 function History() {
-  const history = useAppSelector((state) => state.history.data);
-  const dispatch = useAppDispatch();
-  const historyPage = useAppSelector(
-    (state) => state.lang.pageLanguage.pages.history
-  );
-
-  function convertDate(dateString: string) {
-    const date = new Date(dateString);
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear().toString().slice(-2);
-    return `${day}/${month}/${year} ${hours}:${minutes}`;
-  }
+  const [history, setHistory] = useState<IHistory[]>([]);
 
   useEffect(() => {
-    dispatch(getHistory());
+    (async () => {
+      const resp = await fetch(`${apiUrl}${apiPrefix}/plans/invoices`, {
+        headers: {
+          authorization: `Bearer ${getCookie("access")}`,
+        },
+      });
+      const data = await resp.json();
+      setHistory(data.data);
+    })();
   }, []);
-
-  const actions = {
-    [HistoryActions.SUBTITLE_TRANSLATE]: historyPage.subtitleTranslate,
-    [HistoryActions.VIDEO_CAPTION]: historyPage.videoCaption,
-  };
 
   return (
     <Layout>
@@ -66,11 +54,28 @@ function History() {
                 borderColor: "layout.darkGray",
                 borderRadius: "3px",
                 width: "100%",
+                "& span": {
+                  padding: "0 0.5em",
+                },
               }}
             >
-              <Typography>{convertDate(h.created_at)}</Typography>
-              <Typography>{actions[h.action]}</Typography>
-              <Typography>{h.description}</Typography>
+              <Typography>
+                Fecha de creación <span>{formatDate(h.created)}</span>
+              </Typography>
+              <Typography>
+                Balance final <span>{h.ending_balance / 100}</span>
+              </Typography>
+              <Typography>
+                Moneda <span>{h.currency}</span>
+              </Typography>
+              <Typography>
+                Estado <span>{h.status}</span>
+              </Typography>
+              <div>
+                <a target="_blank" href={h.hosted_invoice_url}>
+                  Ver más
+                </a>
+              </div>
             </Box>
           ))}
         </Box>

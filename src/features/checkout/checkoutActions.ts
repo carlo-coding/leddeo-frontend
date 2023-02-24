@@ -14,7 +14,7 @@ export const checkoutSession = createAsyncThunk(
       enqueueSnackbar(error.message, { variant: "error" });
       return null;
     }
-    if (resp) {
+    if (resp?.url) {
       window.location.assign(resp.url);
     }
   }

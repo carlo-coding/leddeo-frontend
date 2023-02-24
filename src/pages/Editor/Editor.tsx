@@ -18,7 +18,12 @@ import FastForwardIcon from "@mui/icons-material/FastForward";
 import FastRewindIcon from "@mui/icons-material/FastRewind";
 import { setSubtitleList } from "../../features/subtitle/subtitleSlice";
 import { downLoadFile, getVideoDuration, jsonToSrt } from "../../utils";
-import { downloadCaptionVideo, getDownloadDuration } from "../../features";
+import {
+  downloadCaptionVideo,
+  getDownloadDuration,
+  getFontsList,
+  loadFonts,
+} from "../../features";
 import { IAsyncStatus } from "../../features/common";
 import { EditionTabs } from "../Editor/subcomps";
 import TranslateIcon from "@mui/icons-material/Translate";
@@ -68,6 +73,9 @@ function Editor() {
 
   useEffect(() => {
     if (videoRef.current === null) return;
+    dispatch(getFontsList());
+    dispatch(loadFonts());
+
     const handleEnd = () => setIsVideoPaused(true);
     const handlePlay = () => setIsVideoPaused(false);
     const handleBeforeUnload = (e: any) => {

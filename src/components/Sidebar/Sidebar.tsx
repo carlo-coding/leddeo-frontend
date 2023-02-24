@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import { useCustomPush } from "../../hooks";
 import Backdrop from "@mui/material/Backdrop";
 import { closeSidebar } from "./sidebarSlice/sidebarSlice";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 
 function Sidebar() {
   const variants = {
@@ -64,13 +65,15 @@ function Sidebar() {
         </IconButton>
       </Tooltip>
 
-      {/* <IconButton
-        onClick={() => {
-          push(`/${PublicRoutes.PLANS}`);
-        }}
-      >
-        <AttachMoneyIcon sx={{ color: "layout.black" }} />
-      </IconButton> */}
+      <Tooltip title="Planes de pago">
+        <IconButton
+          onClick={() => {
+            push(`/${PublicRoutes.PLANS}`);
+          }}
+        >
+          <AttachMoneyIcon sx={{ color: "layout.black" }} />
+        </IconButton>
+      </Tooltip>
 
       {/* <IconButton>
         <MenuIcon sx={{ color: "layout.black" }} />
