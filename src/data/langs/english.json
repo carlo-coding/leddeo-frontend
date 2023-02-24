@@ -46,7 +46,6 @@
     "profile": {
       "title": "Profile",
       "editButton": "Edit Profile",
-      "platformStatus": "Currently in free beta",
       "supportQuestion": "Any suggestion?",
       "supportMessage": "You can send us an email to",
       "historyButton": "View history",

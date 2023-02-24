@@ -1,7 +1,7 @@
-import { IHistoryItem } from "../../../models";
+import { IHistory } from "../../../models";
 import { IAsyncStatus } from "../../common";
 
 export interface IHistoryState {
-  data: IHistoryItem[];
+  data: IHistory[];
   status: IAsyncStatus;
 }
