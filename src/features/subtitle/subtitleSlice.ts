@@ -74,25 +74,18 @@ const subtitleSlice = createSlice({
     addSubtitleItemAfterAnother(state, action: PayloadAction<string>) {
       const item = state.list.find((i) => i.id === action.payload);
       if (!item) return;
-      const delta = 5;
-      const end = item.end;
       const index = state.list.findIndex((i) => i.id === item.id);
-
-      const subtitlesPart1 = state.list.slice(0, index + 1);
-      const subtitlesPart2 = state.list
-        .slice(index + 1, state.list.length)
-        .map((i) => ({
-          ...i,
-          begin: i.begin + delta,
-          end: i.end + delta,
-        }));
+      const subtitlesPart1 = state.list.slice(0, index); // this will cut "item"
+      const subtitlesPart2 = state.list.slice(index + 1, state.list.length);
+      const end = item.end;
+      item.end = end / 2;
       const newSubtitle = {
         id: Math.random().toString().slice(2),
-        begin: end,
-        end: end + delta,
+        begin: item.end,
+        end: end,
         text: "",
       };
-      state.list = [...subtitlesPart1, newSubtitle, ...subtitlesPart2];
+      state.list = [...subtitlesPart1, item, newSubtitle, ...subtitlesPart2];
     },
     addEmptySubtitleItem(state) {
       const end = state.list[state.list.length - 1]?.end ?? 0;

@@ -164,6 +164,7 @@ function Editor() {
           },
           padding: "30px",
           columnGap: "15px",
+          rowGap: "5px",
           backgroundColor: "layout.white",
           fontSize: "max(38px, 3vmax)",
         }}

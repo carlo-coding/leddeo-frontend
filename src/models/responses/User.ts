@@ -7,4 +7,6 @@ export default interface User {
   email: string;
   plans?: Plan[];
   info: UserInfo;
+  is_superuser?: boolean;
+  is_staff?: boolean;
 }

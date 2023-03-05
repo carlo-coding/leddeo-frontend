@@ -7,15 +7,22 @@ import { PublicRoutes } from "../../models";
 import { useEffect, useState } from "react";
 import { IAsyncStatus } from "../../features/common";
 import Typography from "@mui/material/Typography";
-import { getVideoDuration } from "../../utils";
+import { getVideoDuration, validateUserPlans } from "../../utils";
 
 interface OptionProps {
   title: string;
   subtitle: string;
   children?: React.ReactNode;
+  helpText?: string;
   [s: string]: any;
 }
-function Option({ subtitle, title, children, ...props }: OptionProps) {
+function Option({
+  subtitle,
+  title,
+  children,
+  helpText,
+  ...props
+}: OptionProps) {
   return (
     <Box
       sx={{
@@ -29,8 +36,24 @@ function Option({ subtitle, title, children, ...props }: OptionProps) {
         width: "400px",
         textAlign: "center",
         margin: "1em 0",
+        position: "relative",
       }}
     >
+      {helpText && (
+        <Typography
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            transform: "translateY(-50%)",
+            color: "white",
+            backgroundColor: "layout.navyBlue",
+            padding: "0 0.4em",
+          }}
+        >
+          {helpText}
+        </Typography>
+      )}
       <Typography
         sx={{
           fontSize: "25px",
@@ -52,6 +75,7 @@ function Option({ subtitle, title, children, ...props }: OptionProps) {
           fontWeight: 600,
           padding: "1em 1.5em",
         }}
+        disabled={!!helpText}
       >
         {children}
       </CButton>
@@ -68,6 +92,9 @@ function Options() {
   const optionsPage = useAppSelector(
     (state) => state.lang.pageLanguage.pages.options
   );
+
+  const user = useAppSelector((state) => state.user.data);
+  const userPlanIsValid = validateUserPlans(user);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -112,6 +139,7 @@ function Options() {
           title={optionsPage.titleAutomatic}
           subtitle={optionsPage.subtitleAutomatic}
           onClick={automatic}
+          helpText={userPlanIsValid ? undefined : "You need a plan"}
         >
           {optionsPage.startButtonAutomatic}
         </Option>

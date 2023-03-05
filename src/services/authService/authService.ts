@@ -13,7 +13,7 @@ export async function serviceRegister(payload: ISignUpPayload) {
     body: payload,
     headers: { "Content-Type": "application/json" },
     codeMessages: {
-      "400": "Un usuario con ese nombre ya existe",
+      "400": "A user with that username or email already exists",
     },
   });
   return resp;
@@ -29,7 +29,7 @@ export async function serviceGetToken(payload: IGetTokenPayload) {
     headers: { "Content-Type": "application/json" },
     body: payload,
     codeMessages: {
-      "401": "Usuario o contraseña incorrectos",
+      "401": "Username or password incorrect",
     },
     usesPrefix: false,
   });

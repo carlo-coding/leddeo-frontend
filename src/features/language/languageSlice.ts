@@ -20,7 +20,7 @@ export const langDetails = {
 };
 
 function getPreferredLanguage(): Languages {
-  return (localStorage.getItem("preferredLanguage") || "es") as any;
+  return (localStorage.getItem("preferredLanguage") || "en") as any;
 }
 
 interface ILanguageState {

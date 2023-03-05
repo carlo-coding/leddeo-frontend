@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   setCurrentSubtitleId,
@@ -17,6 +17,9 @@ interface TSubtitlesProps {
 function Subtitles({ videoRef, children }: TSubtitlesProps) {
   const subtitlesRef = useRef<HTMLParagraphElement | null>(null);
   const containerRef = useRef<HTMLParagraphElement | null>(null);
+
+  const [sbMargin, setSbMargin] = useState(20);
+  const [stMargin, setStMargin] = useState(20);
 
   const dispatch = useAppDispatch();
 
@@ -77,11 +80,42 @@ function Subtitles({ videoRef, children }: TSubtitlesProps) {
     };
   }, [videoRef.current, subtitles]);
 
-  const width =
-    ((videoRef.current?.videoWidth || 0) /
-      (videoRef.current?.videoHeight || 1)) *
-    (containerRef.current?.clientHeight || 1);
+  const ar =
+    (videoRef.current?.videoWidth || 0) / (videoRef.current?.videoHeight || 1);
 
+  const width = ar * (containerRef.current?.clientHeight || 1);
+
+  useEffect(() => {
+    /* 
+    En el cuerpo de la función de efecto, 
+    primero se define una función llamada listener que calcula los valores de 
+    vr, sr, r, e ir. vr es la relación de aspecto del video, 
+    que se calcula dividiendo su ancho (videoRef.current?.videoWidth) 
+    por su altura (videoRef.current?.videoHeight). 
+    sr es la relación de aspecto del contenedor de subtítulos, 
+    que se calcula dividiendo su ancho (containerRef.current?.clientWidth) 
+    por su altura (containerRef.current?.clientHeight). r es la diferencia 
+    entre las relaciones de aspecto del video y el contenedor de subtítulos, 
+    pero nunca será menor que cero. ir es similar a r, pero se invierte y 
+    también nunca será menor que cero. 
+    Luego se actualizan los estados stMargin y sbMargin
+    */
+    const listener = () => {
+      const vr =
+        (videoRef.current?.videoWidth || 0) /
+        (videoRef.current?.videoHeight || 1);
+      const sr =
+        (containerRef.current?.clientWidth || 0) /
+        (containerRef.current?.clientHeight || 1);
+      const r = vr - sr < 0 ? 0 : vr - sr;
+      const ir = 1 / vr - 1 / sr < 0 ? 0 : 1 / vr - 1 / sr;
+      setStMargin((ir * (containerRef.current?.clientWidth || 0)) / 4);
+      setSbMargin(((containerRef.current?.clientHeight || 0) * r) / 4);
+    };
+    listener();
+    window.addEventListener("resize", listener);
+    return () => window.removeEventListener("resize", listener);
+  }, []);
   const flexDirections = {
     left: "flex-start",
     center: "center",
@@ -91,7 +125,7 @@ function Subtitles({ videoRef, children }: TSubtitlesProps) {
   return (
     <Box
       sx={{
-        width: width < 3 ? "100%" : `${width}px`,
+        width: "100%",
         height: "100%",
         position: "relative",
         backgroundColor: "layout.mediumGray",
@@ -102,23 +136,33 @@ function Subtitles({ videoRef, children }: TSubtitlesProps) {
       <Box
         sx={{
           position: "absolute",
-          width: "80%",
+          width: ar > 1 ? "80%" : `${width * 0.8}px`,
           display: "flex",
           justifyContent:
             flexDirections[style.hAlign as keyof typeof flexDirections],
           textAlign: style.hAlign,
           bottom:
-            { bottom: "10%", top: "auto", center: "50%" }[style.vAlign] ||
-            "auto",
+            {
+              bottom: `calc(10% + ${sbMargin}px)`,
+              top: "auto",
+              center: "50%",
+            }[style.vAlign] || "auto",
           top:
-            { bottom: "auto", top: "10%", center: "auto" }[style.vAlign] ||
-            "auto",
+            {
+              bottom: "auto",
+              top: `calc(10% + ${sbMargin}px)`,
+              center: "auto",
+            }[style.vAlign] || "auto",
           left:
-            { left: "10%", right: "auto", center: "50%" }[style.hAlign] ||
-            "auto",
+            { left: `calc(10% + ${stMargin}px)`, right: "auto", center: "50%" }[
+              style.hAlign
+            ] || "auto",
           right:
-            { left: "auto", right: "10%", center: "auto" }[style.hAlign] ||
-            "auto",
+            {
+              left: "auto",
+              right: `calc(10% + ${stMargin}px)`,
+              center: "auto",
+            }[style.hAlign] || "auto",
           transform: [
             { center: "translateX(-50%)" }[style.hAlign] || "",
             { center: "translateY(50%)" }[style.vAlign] || "",

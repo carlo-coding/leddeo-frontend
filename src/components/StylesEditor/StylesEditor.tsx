@@ -14,7 +14,7 @@ import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
 import FormatAlignJustifyIcon from "@mui/icons-material/FormatAlignJustify";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
 import BrushIcon from "@mui/icons-material/Brush";
-import { CompactPicker, ColorResult } from "react-color";
+import { ColorResult, SketchPicker } from "react-color";
 import FormatColorTextIcon from "@mui/icons-material/FormatColorText";
 import { useState } from "react";
 
@@ -104,13 +104,17 @@ function StylesEditor() {
   };
 
   const handleColorChange = (color: ColorResult) => {
-    const rgb = `rgb(${color.rgb.r},${color.rgb.g},${color.rgb.b})`;
+    const rgb = `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${
+      color.rgb.a ?? 1
+    })`;
     dispatch(setSubtitleStyle({ ...style, color: rgb }));
   };
 
   const handleBgColorChange = (color?: ColorResult) => {
     if (!color) return dispatch(setSubtitleStyle({ ...style, bgcolor: color }));
-    const rgb = `rgb(${color.rgb.r},${color.rgb.g},${color.rgb.b})`;
+    const rgb = `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${
+      color.rgb.a ?? 1
+    })`;
     dispatch(setSubtitleStyle({ ...style, bgcolor: rgb }));
   };
 
@@ -193,7 +197,7 @@ function StylesEditor() {
             horizontal: "left",
           }}
         >
-          <CompactPicker
+          <SketchPicker
             onChangeComplete={handleColorChange}
             color={style.color}
           />
@@ -209,7 +213,7 @@ function StylesEditor() {
             horizontal: "left",
           }}
         >
-          <CompactPicker
+          <SketchPicker
             onChangeComplete={handleBgColorChange}
             color={style.bgcolor}
           />
