@@ -226,17 +226,27 @@ function Profile() {
                 fontSize: "1.2em",
               }}
             >
-              {activePlan && !isTrialActive(activePlan.trial_end)
-                ? `Usted está pagando ${activePlan?.currency?.toUpperCase()}$
+              {!(
+                (activePlan?.status === "active" ||
+                  activePlan?.status === "trialing") &&
+                activePlan.cancel_at
+              ) ? (
+                <>
+                  {activePlan && !isTrialActive(activePlan.trial_end)
+                    ? `Usted está pagando ${activePlan?.currency?.toUpperCase()}$
               ${activePlan.unit_amount / 100} ${INTERVALS[activePlan.interval]}`
-                : ""}
-              {activePlan && isTrialActive(activePlan.trial_end)
-                ? `Se le cobrarán ${activePlan?.currency?.toUpperCase()}$
+                    : ""}
+                  {activePlan && isTrialActive(activePlan.trial_end)
+                    ? `Se le cobrarán ${activePlan?.currency?.toUpperCase()}$
               ${activePlan.unit_amount / 100} ${
-                    INTERVALS[activePlan.interval]
-                  } al terminar
+                        INTERVALS[activePlan.interval]
+                      } al terminar
               el periodo gratuito`
-                : ""}
+                    : ""}
+                </>
+              ) : (
+                ""
+              )}
             </Typography>
 
             <Typography
